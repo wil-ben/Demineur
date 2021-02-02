@@ -1,32 +1,3 @@
-<<<<<<< HEAD
-/******************************************************************************
- * vue_demineur.c
- *
- * Création de la vue du jeu Demineur.
- *
- * cree le     : 19/01/2020
- * par         : Nicolas LE MOINE <necko.lm@gmail.com>
- *
- * Compilation : gcc vue_demineur.c -Wall `pkg-config gtk+-3.0 --cflags --libs`
- *
- * modifie le  :
- * par         :
- * description :  
- ******************************************************************************/
-
-#include <stdio.h>
-#include <math.h>
-#include <gtk/gtk.h>
-#include "vue_demineur.h"
-
-/*---------------------------------------------------- constructeur */
-
-
-
-/*----------------------------------------------------- destructeur */
-
-
-=======
 #include "vue_demineur.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -60,4 +31,3 @@ int main()
 
   return EXIT_SUCCESS;
 }
->>>>>>> a619cb6031e5ab60f5856f59f0304f0bf84198f3

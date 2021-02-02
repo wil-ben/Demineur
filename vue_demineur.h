@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-/******************************************************************************
- * vue_demineur.h
- *
- * Initialise la vue du jeu demineur.
-=======
  /******************************************************************************
 
  *vue_demineur.h
@@ -27,7 +21,6 @@
 		- void vue_tresor_set_fenetre_titre(vue_tresor* vue, const char* titre);
 		- void vue_tresor_set_boite_libelle(vue_tresor* vue, int i, const char* texte);
 		- void vue_tresor_set_boite_relief(vue_tresor* vue, int i, int oui_non);
->>>>>>> a619cb6031e5ab60f5856f59f0304f0bf84198f3
  *
  * cree le     : 19/01/2020
  * par         : Nicolas LE MOINE <necko.lm@gmail.com>
@@ -36,8 +29,6 @@
  * par         :
  * description :  
  ******************************************************************************/
-<<<<<<< HEAD
-=======
 #ifndef VUE_DEMINEUR__H
 #define VUE_DEMINEUR__H
 
@@ -63,7 +54,6 @@ typedef struct s_vue_demineur
     GtkButton* rejouer;
     GtkButton* quitter;
 } vue_tresor;
->>>>>>> a619cb6031e5ab60f5856f59f0304f0bf84198f3
 
 
 /*-------------------------------------------- declarations de type */
@@ -71,20 +61,14 @@ typedef struct s_vue_demineur
 
 /*---------------------------------------------------- constructeur */
 
-<<<<<<< HEAD
-=======
 void vue_tresor_construire(vue_tresor* vue, int dim);
 void vue_tresor_detruire(vue_tresor* vue);
 
->>>>>>> a619cb6031e5ab60f5856f59f0304f0bf84198f3
 /*----------------------------------------------------- destructeur */
 
 /*------------------------------------------------------ accesseurs */
 
 /*------------------------------------------------------ modifieurs */
-<<<<<<< HEAD
-=======
 
 
 #endif
->>>>>>> a619cb6031e5ab60f5856f59f0304f0bf84198f3
