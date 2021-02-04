@@ -5,10 +5,13 @@
 
 void vue_tresor_construire(vue_tresor* vue, int dim)
 {
+  // initialisation de la vue
   vue->fenetre = (GtkWindow*)gtk_window_new(GTK_WINDOW_TOPLEVEL);
   vue->conteneur_principal = (GtkBox*)gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
   vue->conteneur_cases = (GtkBox*)gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
   vue->conteneur_donnees = (GtkBox*)gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
+
+  gtk_window_set_title(vue->fenetre, "Démineur");
   gtk_container_add(GTK_CONTAINER(vue->fenetre),GTK_WIDGET(vue->conteneur_principal));
 
   gtk_box_pack_start(vue->conteneur_principal,GTK_WIDGET(vue->conteneur_cases),TRUE,TRUE,0);
@@ -16,7 +19,11 @@ void vue_tresor_construire(vue_tresor* vue, int dim)
 
   gtk_widget_show_all(GTK_WIDGET(vue->fenetre));
   g_signal_connect(G_OBJECT(vue->fenetre), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+}
 
+void vue_tresor_detruire(vue_tresor* vue)
+{
+  
 }
 
 int main()
