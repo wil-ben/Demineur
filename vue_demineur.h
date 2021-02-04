@@ -54,6 +54,8 @@ typedef struct s_vue_demineur
     GtkButton* rejouer;
     GtkButton* quitter;
 	GtkBox* tab_box[DIM_LONGUEUR];
+	GtkLabel* libelle_menu;
+	GtkImage* drapeau[DIM_LONGUEUR][DIM_LARGEUR];
 }vue_demineur;
 
 
