@@ -36,8 +36,8 @@
 
 #include <gtk/gtk.h> /* on inclut la biliothèque d'objets graphiques	*/
 
-#define DIM_LONGUEUR 8 /* vs. jeu de tresor : pour NB_BOITE	 */
-#define DIM_LARGEUR 8 /* vs. jeu de tresor : pour NB_BOITE	 */
+#define DIM_LONGUEUR 9 /* vs. jeu de tresor : pour NB_BOITE	 */
+#define DIM_LARGEUR 9 /* vs. jeu de tresor : pour NB_BOITE	 */
 
 
 /* ___________________________________
@@ -49,11 +49,12 @@ typedef struct s_vue_demineur
     GtkBox* conteneur_principal;
     GtkBox* conteneur_cases;
     GtkBox* conteneur_donnees;
-    GtkButton* cases[DIM_LONGUEUR][DIM_LARGEUR];	/* pour i = 0 ,..., DIM_LONGUEUR -1 et j = 0 ,..., DIM_LARGEUR -1, la case d'indice ij du tableau cases modélise la case de la ligne n°i+1 et de la colonne n°j+1 du jeu  */
+    GtkToggleButton* boutton[DIM_LONGUEUR][DIM_LARGEUR];	/* pour i = 0 ,..., DIM_LONGUEUR -1 et j = 0 ,..., DIM_LARGEUR -1, la case d'indice ij du tableau cases modélise la case de la ligne n°i+1 et de la colonne n°j+1 du jeu  */
     GtkBox* conteneur_menu;
     GtkButton* rejouer;
     GtkButton* quitter;
-} vue_tresor;
+	GtkBox* tab_box[DIM_LONGUEUR];
+}vue_demineur;
 
 
 /*-------------------------------------------- declarations de type */
@@ -61,8 +62,8 @@ typedef struct s_vue_demineur
 
 /*---------------------------------------------------- constructeur */
 
-void vue_tresor_construire(vue_tresor* vue, int dim);
-void vue_tresor_detruire(vue_tresor* vue);
+void vue_demineur_construire(vue_demineur* vue, int dim);
+void vue_demineur_detruire(vue_demineur* vue);
 
 /*----------------------------------------------------- destructeur */
 
