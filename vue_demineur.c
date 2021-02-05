@@ -39,7 +39,7 @@ void vue_demineur_construire(vue_demineur* vue, int dim)
   {
     for ( j = 0; j < DIM_LARGEUR; j++)
     {
-      vue->drapeau[i][j] =(GtkImage*)gtk_image_new_from_file("flag.png");
+      vue->drapeau[i][j] =(GtkImage*)gtk_image_new_from_file("littleflag.png");
       vue->boutton[i][j] =(GtkToggleButton*)gtk_toggle_button_new();
       gtk_button_set_image((GtkButton*)vue->boutton[i][j],GTK_WIDGET(vue->drapeau[i][j]));
       gtk_box_pack_start(vue->tab_box[i],GTK_WIDGET(vue->boutton[i][j]),TRUE,TRUE,0);
@@ -48,8 +48,9 @@ void vue_demineur_construire(vue_demineur* vue, int dim)
     
   }
   
-
+  
   gtk_widget_show_all(GTK_WIDGET(vue->fenetre));
+  g_signal_connect(G_OBJECT(vue->quitter),"clicked",G_CALLBACK(gtk_main_quit),NULL);
   g_signal_connect(G_OBJECT(vue->fenetre), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 }
 
