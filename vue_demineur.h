@@ -29,12 +29,12 @@
  * par         :
  * description :  
  ******************************************************************************/
-#ifndef VUE_DEMINEUR__H
+#include <gtk/gtk.h>
+
 #define VUE_DEMINEUR__H
 
 #define DEMINEUR_VUE_DEBUG 1	/* mode de compilation */
 
-#include <gtk/gtk.h> /* on inclut la biliothèque d'objets graphiques	*/
 
 #define DIM_LONGUEUR 9 /* vs. jeu de tresor : pour NB_BOITE	 */
 #define DIM_LARGEUR 9 /* vs. jeu de tresor : pour NB_BOITE	 */
@@ -45,17 +45,18 @@
 
 typedef struct s_vue_demineur
 {
-    GtkWindow* fenetre;
-    GtkBox* conteneur_principal;
-    GtkBox* conteneur_cases;
-    GtkBox* conteneur_donnees;
-    GtkToggleButton* boutton[DIM_LONGUEUR][DIM_LARGEUR];	/* pour i = 0 ,..., DIM_LONGUEUR -1 et j = 0 ,..., DIM_LARGEUR -1, la case d'indice ij du tableau cases modélise la case de la ligne n°i+1 et de la colonne n°j+1 du jeu  */
-    GtkBox* conteneur_menu;
-    GtkButton* rejouer;
-    GtkButton* quitter;
-	GtkBox* tab_box[DIM_LONGUEUR];
-	GtkLabel* libelle_menu;
-	GtkImage* drapeau[DIM_LONGUEUR][DIM_LARGEUR];
+  int a;
+  GtkWindow* fenetre;
+  GtkBox* conteneur_principal;
+  GtkBox* conteneur_cases;
+  GtkBox* conteneur_donnees;
+  GtkToggleButton* boutton[DIM_LONGUEUR][DIM_LARGEUR];	/* pour i = 0 ,..., DIM_LONGUEUR -1 et j = 0 ,..., DIM_LARGEUR -1, la case d'indice ij du tableau cases modélise la case de la ligne n°i+1 et de la colonne n°j+1 du jeu  */
+  GtkBox* conteneur_menu;
+  GtkButton* rejouer;
+  GtkButton* quitter;
+  GtkBox* tab_box[DIM_LONGUEUR];
+  GtkLabel* libelle_menu;
+  GtkImage* drapeau[DIM_LONGUEUR][DIM_LARGEUR];
 }vue_demineur;
 
 
@@ -63,8 +64,8 @@ typedef struct s_vue_demineur
 
 
 /*---------------------------------------------------- constructeur */
-
-void vue_demineur_construire(vue_demineur* vue, int dim);
+gboolean fonctionTest(GtkWidget *widget, GdkEvent *unionCompliquee, gpointer);
+void vue_demineur_construire(vue_demineur* vue);
 void vue_demineur_detruire(vue_demineur* vue);
 
 /*----------------------------------------------------- destructeur */
@@ -74,4 +75,3 @@ void vue_demineur_detruire(vue_demineur* vue);
 /*------------------------------------------------------ modifieurs */
 
 
-#endif
