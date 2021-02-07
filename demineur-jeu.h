@@ -10,10 +10,15 @@
 
 /* ________________________________
 	Structures de données : types énumérés pour les actions possibles
-*/
+*/typedef int etat_partie;
 
 /* ____ Menu principal
 */
+enum etat_part{
+	PARTIE_GAGNEE,
+	PARTIE_ENCOURS,
+	PARTIE_PERDUE
+};
 
 enum e_menu_principal {
 	MENU_PRINC_QUITTER,
@@ -93,6 +98,8 @@ void demineur_jouer(demineur* d);
 /*	Fonction permettant de redimensionner le jeu
 	Precondition : d adresse d'une variable demineur */
 void demineur_redimensionner(demineur* d);
+
+int demineur_get_etat(demineur*);
 
 #endif
 

@@ -1,7 +1,7 @@
 /*
 	modèle du jeu de démineur : implémentation des fonctions
 */
-
+#include "dimension.h"
 #include "demineur.h"
 #include <stdlib.h>	/* pour allocation dynamique */
 #include <time.h>	/* pour génération aléatoire */
@@ -56,7 +56,7 @@ demineur* demineur_construire()
 	{
 		/* dimensions par défaut */
 		dimension dim = DIM_DEFAUT;
-		dimension_set(& d->dim, dim.hauteur, dim.largeur, dim.nb_mines);
+		dimension_set(& d->dim, dim.hauteur, dim.largeur, dim.nbmines);
 
 		/* initialisation de la partie */
 		srand(time(NULL));
@@ -83,7 +83,7 @@ void demineur_nouvelle_partie(demineur* d)
 	/* Récupération des dimensions */
 	h = dimension_get_hauteur(& d->dim);
 	l = dimension_get_largeur(& d->dim);
-	nbm = dimension_get_nb_mines(& d->dim);
+	nbm = dimension_get_nbmines(& d->dim);
 	
 	/* Initialisation des cases du jeu */
 	for (i = 0 ; i < (int)h ; i ++)
@@ -222,17 +222,17 @@ int demineur_set_niveau(demineur* d, demineur_niveau niveau)
 	else if (niveau == DEMINEUR_NIVEAU_DEBUTANT)
 	{
 		dimension dim = DIM_DEBUTANT;
-		demineur_set_dimensions(d, dimension_get_hauteur(& dim), dimension_get_largeur(& dim), (int)dimension_get_nb_mines(& dim));
+		demineur_set_dimensions(d, dimension_get_hauteur(& dim), dimension_get_largeur(& dim), (int)dimension_get_nbmines(& dim));
 	}
 	else if (niveau == DEMINEUR_NIVEAU_MOYEN)
 	{
 		dimension dim = DIM_MOYEN;
-		demineur_set_dimensions(d, dimension_get_hauteur(& dim), dimension_get_largeur(& dim), (int)dimension_get_nb_mines(& dim));
+		demineur_set_dimensions(d, dimension_get_hauteur(& dim), dimension_get_largeur(& dim), (int)dimension_get_nbmines(& dim));
 	}
 	else if (niveau == DEMINEUR_NIVEAU_EXPERT)
 	{
 		dimension dim = DIM_EXPERT;
-		demineur_set_dimensions(d, dimension_get_hauteur(& dim), dimension_get_largeur(& dim), (int)dimension_get_nb_mines(& dim));
+		demineur_set_dimensions(d, dimension_get_hauteur(& dim), dimension_get_largeur(& dim), (int)dimension_get_nbmines(& dim));
 	}
 
 	return retour; 
@@ -244,7 +244,7 @@ void demineur_get_dimensions(demineur* d, unsigned int* h, unsigned int* l, unsi
 {
 	*h = dimension_get_hauteur(& d->dim);
 	*l = dimension_get_largeur(& d->dim);
-	*nbm = dimension_get_nb_mines(& d->dim);
+	*nbm = dimension_get_nbmines(& d->dim);
 }
 
 /* __ Accesseurs en ecriture / lecture : case
@@ -435,7 +435,7 @@ int demineur_est_gagnee(demineur* d)
 	demineur_get_stat(d, &nb_non_minees_devoilees, &nb_minees_devoilees, &nb_mines_restant_a_deviner);
 
 	/* retour */
-	return (nb_non_minees_devoilees == (int)(dimension_get_hauteur(& d->dim)*dimension_get_largeur(& d->dim) -dimension_get_nb_mines(& d->dim)));
+	return (nb_non_minees_devoilees == (int)(dimension_get_hauteur(& d->dim)*dimension_get_largeur(& d->dim) -dimension_get_nbmines(& d->dim)));
 }
 
 /*	Renvoie 1 si une case minée du jeu est dévoilée, 0 sinon */
@@ -460,7 +460,7 @@ int demineur_est_encours(demineur* d)
 	demineur_get_stat(d, &nb_non_minees_devoilees, &nb_minees_devoilees, &nb_mines_restant_a_deviner);
 
 	/* retour */
-	return (nb_non_minees_devoilees > 0 && nb_minees_devoilees == 0 && nb_non_minees_devoilees < (int)(dimension_get_hauteur(& d->dim)*dimension_get_largeur(& d->dim) -dimension_get_nb_mines(& d->dim)));
+	return (nb_non_minees_devoilees > 0 && nb_minees_devoilees == 0 && nb_non_minees_devoilees < (int)(dimension_get_hauteur(& d->dim)*dimension_get_largeur(& d->dim) -dimension_get_nbmines(& d->dim)));
 }
 
 /* ________
@@ -524,7 +524,7 @@ static void demineur_get_stat(demineur* d, int* nb_non_minees_devoilees, int* nb
 
 	*nb_non_minees_devoilees=0;
 	*nb_minees_devoilees=0;
-	*nb_mines_restant_a_deviner=(int)dimension_get_nb_mines(& d->dim);
+	*nb_mines_restant_a_deviner=(int)dimension_get_nbmines(& d->dim);
 
 	/* parcours des cases participant au jeu pour dénombrer les cases dévoilées minées et non minées */
 	for (i = 0 ; i < (int)dimension_get_hauteur(& d->dim) ; i ++)

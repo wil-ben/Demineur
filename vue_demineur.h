@@ -31,6 +31,7 @@
  ******************************************************************************/
 #include <gtk/gtk.h>
 
+#ifndef VUE_DEMINEUR_H
 #define VUE_DEMINEUR__H
 
 #define DEMINEUR_VUE_DEBUG 1	/* mode de compilation */
@@ -74,4 +75,4 @@ void vue_demineur_detruire(vue_demineur* vue);
 
 /*------------------------------------------------------ modifieurs */
 
-
+#endif

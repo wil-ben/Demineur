@@ -69,15 +69,15 @@ void vue_demineur_construire(vue_demineur* vue)
   g_signal_connect(G_OBJECT(vue->fenetre), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 }
 
-//void click_right(GtkWidget *widget,vue_demineur *vue){
 
 gboolean fonctionTest(GtkWidget *widget,GdkEvent * unionCompliquee, gpointer data){
  /* Variables */
     guint typeClic=unionCompliquee->button.button ; // récupération du type de clic à partir de l'argument de la fonction
-    if( typeClic ==3){  /* Cas du clic gauche */
+    if( typeClic ==3){  /* Cas du clic droit */
       gtk_button_set_image((GtkButton*)widget,GTK_WIDGET((GtkImage*)gtk_image_new_from_file("littleflag.png")));
-    }else{
-    gtk_toggle_button_set_active ((GtkToggleButton *)widget, TRUE);
+    
+    }else{// clic gauche (typeClic == 1)
+      gtk_toggle_button_set_active ((GtkToggleButton *)widget, TRUE);
     }
     return TRUE;
     

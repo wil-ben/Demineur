@@ -21,7 +21,7 @@ GTK_VERSION = gtk+-3.0
 CFLAGS_GTK = $(CFLAGS) `pkg-config $(GTK_VERSION) --cflags`
 LDFLAGS_GTK = `pkg-config $(GTK_VERSION) --libs`
 
-VUE_DIR = ../vue_jeu_grille/
+VUE_DIR = ../vue_demineur/
 
 # ____ exécutables
 all: demineur-jeu.exe demineur-gtk.exe
@@ -30,7 +30,7 @@ all: demineur-jeu.exe demineur-gtk.exe
 demineur-jeu.exe: demineur-jeu.o demineur.o case-demineur.o dimension.o
 	gcc $^ -o $@
 
-demineur-gtk.exe: demineur-gtk.o demineur_ctrl.o $(VUE_DIR)vue_jeu_grille.o demineur.o case-demineur.o dimension.o
+demineur-gtk.exe: demineur-gtk.o demineur_ctrl.o $(VUE_DIR)vue_demineur.o demineur.o case-demineur.o dimension.o
 	gcc $^ -o $@	 $(LDFLAGS_GTK)
 
 # objets programmes
@@ -51,28 +51,28 @@ dimension.o: dimension.c dimension.h
 	gcc -c $< -o $@ $(CFLAGS)
 
 # objets vue
-$(VUE_DIR)vue_jeu_grille.o: $(VUE_DIR)vue_jeu_grille.c $(VUE_DIR)vue_jeu_grille.h
+$(VUE_DIR)vue_demineur.o: $(VUE_DIR)vue_demineur.c $(VUE_DIR)vue_demineur.h
 	gcc -c $< -o $@ $(CFLAGS_GTK)
 
 # objets contrôleur
-demineur_ctrl.o: demineur_ctrl.c demineur_ctrl.h $(VUE_DIR)vue_jeu_grille.h demineur.h
+demineur_ctrl.o: demineur_ctrl.c demineur_ctrl.h $(VUE_DIR)vue_demineur.h demineur.h
 	gcc -c $< -o $@ $(CFLAGS_GTK)
 
 # ____ programmes de test (contrôleur, vue, modèle)
-tests: demineur-test.exe case-demineur-test.exe dimension-test.exe $(VUE_DIR)vue_jeu_grille-test.exe
+tests: demineur-test.exe case-demineur-test.exe dimension-test.exe $(VUE_DIR)vue_demineur-test.exe
 
 # test controleur demineur
-demineur_ctrl-test.exe: demineur_ctrl-test.o demineur_ctrl.o $(VUE_DIR)vue_jeu_grille.o demineur.o case-demineur.o dimension.o
+demineur_ctrl-test.exe: demineur_ctrl-test.o demineur_ctrl.o $(VUE_DIR)vue_demineur.o demineur.o case-demineur.o dimension.o
 	gcc $^ -o $@ $(LDFLAGS_GTK)
 
-demineur_ctrl-test.o: demineur_ctrl-test.c demineur_ctrl.h $(VUE_DIR)vue_jeu_grille.h demineur.h
+demineur_ctrl-test.o: demineur_ctrl-test.c demineur_ctrl.h $(VUE_DIR)vue_demineur.h demineur.h
 	gcc -c $< -o $@ $(CFLAGS_GTK)
 
 # test vue grille
-$(VUE_DIR)vue_jeu_grille-test.exe: $(VUE_DIR)vue_jeu_grille-test.o $(VUE_DIR)vue_jeu_grille.o
+$(VUE_DIR)vue_demineur-test.exe: $(VUE_DIR)vue_demineur-test.o $(VUE_DIR)vue_demineur.o
 	gcc $^ -o $@ $(LDFLAGS_GTK)
 
-$(VUE_DIR)vue_jeu_grille-test.o: $(VUE_DIR)vue_jeu_grille-test.c $(VUE_DIR)vue_jeu_grille.h
+$(VUE_DIR)vue_demineur-test.o: $(VUE_DIR)vue_demineur-test.c $(VUE_DIR)vue_demineur.h
 	gcc -c $< -o $@ $(CFLAGS_GTK)
 
 # test modele demineur

@@ -39,6 +39,7 @@ typedef enum e_booleen booleen;
 /* __ Marquage d'une case */
 enum e_marque{
 	MARQUE_AUCUNE,
+	MARQUE_INTERRO,
 	MARQUE_MINE,				/* le joueur pense que la case est minée */
 	MARQUE_MINE_INTERRO		/* le joueur fait l'hypothèse que la case est minée */
 };
