@@ -1,7 +1,9 @@
 {
     "files.associations": {
         "vue_demineur.h": "c",
-        "gtk.h": "c"
+        "gtk.h": "c",
+        "stdlib.h": "c",
+        "demineur-jeu.h": "c"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }

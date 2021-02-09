@@ -15,32 +15,21 @@
 # _______________/
 
 # ____ variables d'environnement
-CFLAGS = -Wall
+CFLAGS = -Wall	# à utiliser pour la compilation de *tout fichier source*
+CFLAGS_GTK = `pkg-config gtk+-3.0 --cflags`	# à utiliser pour la compilation de fichiers source *utilisant gtk*
+LDFLAGS_GTK = `pkg-config gtk+-3.0 --libs`	# à utiliser pour la génération d'exécutables *utilisant gtk*
 
-GTK_VERSION = gtk+-3.0
-CFLAGS_GTK = $(CFLAGS) `pkg-config $(GTK_VERSION) --cflags`
-LDFLAGS_GTK = `pkg-config $(GTK_VERSION) --libs`
+# ____ l'exécutable
+EXEC = demineur-jeu.exe vue_demineur.exe
+all: $(EXEC)
 
-VUE_DIR = ../vue_demineur/
-
-# ____ exécutables
-all: demineur-jeu.exe demineur-gtk.exe
-
-# exécutables
+#jeu de démineur
 demineur-jeu.exe: demineur-jeu.o demineur.o case-demineur.o dimension.o
 	gcc $^ -o $@
-
-demineur-gtk.exe: demineur-gtk.o demineur_ctrl.o $(VUE_DIR)vue_demineur.o demineur.o case-demineur.o dimension.o
-	gcc $^ -o $@	 $(LDFLAGS_GTK)
-
-# objets programmes
-demineur-jeu.o: demineur-jeu.c demineur-jeu.h demineur.h
+demineur-jeu.o: demineur-jeu.c demineur-jeu.h demineur.h case-demineur.h dimension.h
 	gcc -c $< -o $@ $(CFLAGS)
 
-demineur-gtk.o: demineur-gtk.c demineur_ctrl.h demineur.h
-	gcc -c $< -o $@ $(CFLAGS_GTK)
-
-# objets modèle
+# ____ la bibliothèque
 demineur.o: demineur.c demineur.h case-demineur.h dimension.h
 	gcc -c $< -o $@ $(CFLAGS)
 
@@ -50,53 +39,24 @@ case-demineur.o: case-demineur.c case-demineur.h
 dimension.o: dimension.c dimension.h
 	gcc -c $< -o $@ $(CFLAGS)
 
-# objets vue
-$(VUE_DIR)vue_demineur.o: $(VUE_DIR)vue_demineur.c $(VUE_DIR)vue_demineur.h
-	gcc -c $< -o $@ $(CFLAGS_GTK)
-
-# objets contrôleur
-demineur_ctrl.o: demineur_ctrl.c demineur_ctrl.h $(VUE_DIR)vue_demineur.h demineur.h
-	gcc -c $< -o $@ $(CFLAGS_GTK)
-
-# ____ programmes de test (contrôleur, vue, modèle)
-tests: demineur-test.exe case-demineur-test.exe dimension-test.exe $(VUE_DIR)vue_demineur-test.exe
-
-# test controleur demineur
-demineur_ctrl-test.exe: demineur_ctrl-test.o demineur_ctrl.o $(VUE_DIR)vue_demineur.o demineur.o case-demineur.o dimension.o
+# programme GTK
+vue_demineur.exe: vue_demineur.o ctrl_demineur.o main.o demineur.o case-demineur.o dimension.o
 	gcc $^ -o $@ $(LDFLAGS_GTK)
 
-demineur_ctrl-test.o: demineur_ctrl-test.c demineur_ctrl.h $(VUE_DIR)vue_demineur.h demineur.h
-	gcc -c $< -o $@ $(CFLAGS_GTK)
+vue_demineur.o: vue_demineur.c vue_demineur.h
+	gcc -c $< -o $@ $(CFLAGS) $(CFLAGS_GTK)
 
-# test vue grille
-$(VUE_DIR)vue_demineur-test.exe: $(VUE_DIR)vue_demineur-test.o $(VUE_DIR)vue_demineur.o
-	gcc $^ -o $@ $(LDFLAGS_GTK)
+ctrl_demineur.o: ctrl_demineur.c ctrl_demineur.h demineur.h dimension.h case-demineur.h vue_demineur.h
+	gcc -c $< -o $@ $(CFLAGS) $(CFLAGS_GTK)
 
-$(VUE_DIR)vue_demineur-test.o: $(VUE_DIR)vue_demineur-test.c $(VUE_DIR)vue_demineur.h
-	gcc -c $< -o $@ $(CFLAGS_GTK)
-
-# test modele demineur
-demineur-test.exe: demineur-test.o demineur.o case-demineur.o dimension.o
-	gcc $^ -o $@
-
-demineur-test.o: demineur-test.c demineur-test.h demineur.h
-	gcc -c $< -o $@ $(CFLAGS)
-
-# test modele case demineur
-case-demineur-test.exe: case-demineur-test.o case-demineur.o
-	gcc $^ -o $@
-
-case-demineur-test.o: case-demineur-test.c case-demineur.h
-	gcc -c $< -o $@ $(CFLAGS)
-
-# test modele dimension demineur
-dimension-test.exe: dimension-test.o dimension.o
-	gcc $^ -o $@
-
-dimension-test.o: dimension-test.c dimension.h
-	gcc -c $< -o $@ $(CFLAGS)
+main.o: main.c ctrl_demineur.h demineur.h dimension.h case-demineur.h vue_demineur.h
+	gcc -c $< -o $@ $(CFLAGS) $(CFLAGS_GTK)
 
 # ____ nettoyage
-clean: 
-	rm *.o *~ *.exe $(VUE_DIR)*.o $(VUE_DIR)*~ $(VUE_DIR)*.exe
+.PHONY: clean mrproper
 
+clean:
+	rm -rf *.o
+
+mrproper: clean
+	rm -rf $(EXEC) $(TESTS)

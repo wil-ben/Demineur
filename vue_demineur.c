@@ -5,7 +5,7 @@
 
 int i,j;
 
-void vue_demineur_construire(vue_demineur* vue)
+void vue_demineur_construire(vue_demineur* vue,int dim)
 {
   
   // initialisation de la vue
@@ -87,14 +87,49 @@ void vue_demineur_detruire(vue_demineur* vue)
 {
   
 }
+void vue_demineur_montrer(vue_demineur* vue,gboolean oui_non){
+  #if(DEMINEUR_VUE_DEBUG == 1)
+    printf("Entree %s(%p, %d)\n", __func__, (void*)vue, oui_non);
+    #endif
 
+	if(oui_non == TRUE)
+	{
+		gtk_widget_show_all(GTK_WIDGET(vue->fenetre));
+	}
+	else
+	{
+		gtk_widget_hide(GTK_WIDGET(vue->fenetre));
+	}
 
-int main()
+    #if(DEMINEUR_VUE_DEBUG == 1)
+    printf("Sortie %s()\n", __func__);
+    #endif
+}
+
+GtkWidget* vue_demineur_get_cases(vue_demineur* vue, int i,int j){
+  return (GtkWidget*)vue->boutton[i][j];
+}
+
+void vue_demineur_set_fenetre_titre(vue_demineur* vue, const char* titre)
+{
+    #if(DEMINEUR_VUE_DEBUG == 1)
+    printf("Entree %s(%p, %s)\n", __func__, (void*)vue, titre);
+    #endif
+
+	gtk_window_set_title(vue->fenetre, titre);
+
+    #if(DEMINEUR_VUE_DEBUG == 1)
+    printf("Sortie %s()\n", __func__);
+    #endif
+}
+
+/*int main()
 {
   vue_demineur vue;
+  int dim=1;
   gtk_init(NULL,NULL);
   //int dim = 1;
-  vue_demineur_construire(&vue);
+  vue_demineur_construire(&vue,dim);
    gtk_main();
   return EXIT_SUCCESS;
-}
+}*/

@@ -2,24 +2,23 @@
 */
 
 #include "demineur-jeu.h"
-#include "vue_demineur.h"
+
 #include <stdlib.h>
 #include <stdio.h>
-#include <gtk/gtk.h>
+
 /* ____ Fonction principale
 */
 int main() {
 	menu_principal choix_princ = MENU_PRINC_NOUVELLE_PARTIE;
 	demineur* d = NULL;
-	vue_demineur vue;
+
 	/* __ construction & initialisation d'une partie (dimensions par défaut) */
 	d =demineur_construire();
 	if (d == NULL) {
 		printf("Programme %s :: allocation memoire impossible, sortie du programme en erreur.\n", __FILE__);
 		return EXIT_FAILURE;
 	}
-	gtk_init(NULL,NULL);
-	vue_demineur_construire(&vue);
+
 	/* __ boucle infinie de menu */
 	while(choix_princ != MENU_PRINC_QUITTER) {
 		demineur_afficher_dim(d);
@@ -43,8 +42,8 @@ int main() {
 	printf("Au revoir... merci d'avoir joue avec nous !\n");
 
 	/* ... et proprement (destruction) */
-	demineur_detruire(&d);
-	gtk_main();
+	d =demineur_detruire(d);
+
 	return EXIT_SUCCESS;
 }
 
@@ -242,7 +241,7 @@ void demineur_afficher_jeu(demineur* d) {
 	/* Etat de la partie */
 	etat =demineur_get_etat(d);
 	if(etat == PARTIE_ENCOURS)
-		printf("en cours, %d mines restent a trouver. ", demineur_get_nb_mines_restant_a_deviner(d));
+		printf("en cours, %d mines restent a trouver. ", demineur_get_nbmines_a_deviner(d));
 	else if (etat == PARTIE_GAGNEE)
 		printf("gagnee, bravo ! ");
 	else if (etat == PARTIE_PERDUE)
@@ -265,7 +264,7 @@ void demineur_afficher_jeu(demineur* d) {
 			/* Si la case est dévoilée : on indique la présence d'une mine si la case est minée (partie alors perdue), le nombre de mines adjacentes sinon */
 			if(demineur_case_est_devoilee(d, i, j)) {
 				if(! demineur_case_est_minee(d, i, j))
-					printf("%d ", demineur_case_get_nb_mines_adj(d, i, j));
+					printf("%d ", demineur_case_get_nbmines_adj(d, i, j));
 				else
 					printf("%c ", '!');
 			}
@@ -273,7 +272,7 @@ void demineur_afficher_jeu(demineur* d) {
 			else if (demineur_case_est_minee(d, i, j) && etat != PARTIE_ENCOURS)
 				printf("%c ", 'X');
 			else {
-				ma = demineur_case_marquer(d, i, j);
+				ma = demineur_case_get_marque(d, i, j);
 				if (ma == MARQUE_MINE)
 					printf("%c ", 'M');
 				else if (ma == MARQUE_INTERRO)
@@ -330,7 +329,3 @@ void demineur_redimensionner(demineur* d) {
 		demineur_set_dimensions(d, h, l, m);
 	}
 }
-
-int demineur_get_etat(demineur*d){
-	return 1;
-	}
