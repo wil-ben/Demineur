@@ -58,9 +58,6 @@ void vue_demineur_construire(vue_demineur* vue,int dim)
       vue->boutton[i][j] =(GtkToggleButton*)gtk_toggle_button_new();
       gtk_box_pack_start(vue->tab_box[i],GTK_WIDGET(vue->boutton[i][j]),TRUE,TRUE,0);
      
-      //détection du clic droit pour chaque bouton
-      gtk_widget_set_events((GtkWidget*)vue->boutton[i][j], GDK_BUTTON_PRESS_MASK);
-      g_signal_connect(G_OBJECT(vue->boutton[i][j]), "button-press-event", G_CALLBACK(fonctionTest), NULL);
     }
     
   }
@@ -69,19 +66,6 @@ void vue_demineur_construire(vue_demineur* vue,int dim)
   g_signal_connect(G_OBJECT(vue->fenetre), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 }
 
-
-gboolean fonctionTest(GtkWidget *widget,GdkEvent * unionCompliquee, gpointer data){
- /* Variables */
-    guint typeClic=unionCompliquee->button.button ; // récupération du type de clic à partir de l'argument de la fonction
-    if( typeClic ==3){  /* Cas du clic droit */
-      gtk_button_set_image((GtkButton*)widget,GTK_WIDGET((GtkImage*)gtk_image_new_from_file("littleflag.png")));
-    
-    }else{// clic gauche (typeClic == 1)
-      gtk_toggle_button_set_active ((GtkToggleButton *)widget, TRUE);
-    }
-    return TRUE;
-    
-}
 
 void vue_demineur_detruire(vue_demineur* vue)
 {

@@ -1,4 +1,4 @@
-/* Case d'un jeu de dmineur : fichier source
+/* Case d'un jeu de dï¿½mineur : fichier source
 */
 
 #include <assert.h>	/* pour assert() */
@@ -10,7 +10,7 @@
 /* Accesseurs en ecriture / lecture
 */
 
-/* (R)initialise la case */
+/* (Rï¿½)initialise la case */
 void case_initialiser(case_demineur* c) {
 	c->est_minee = BOOLEEN_FAUX;
 	c->est_devoilee = BOOLEEN_FAUX;
@@ -23,7 +23,7 @@ void case_miner(case_demineur* c) {
 	c->est_minee = BOOLEEN_VRAI;
 }
 
-/* Dvoile la case (l'ventuelle marque de la case est alors efface) */
+/* Dï¿½voile la case (l'ï¿½ventuelle marque de la case est alors effacï¿½e) */
 void case_devoiler(case_demineur* c) {
 	c->est_devoilee = BOOLEEN_VRAI;
 	c->marque_joueur = MARQUE_AUCUNE;
@@ -49,27 +49,27 @@ void case_marquer(case_demineur* c) {
 	}
 }
 
-/* Renvoie BOOLEEN_VRAI si la case est mine et BOOLEEN_FAUX sinon */
+/* Renvoie BOOLEEN_VRAI si la case est minï¿½e et BOOLEEN_FAUX sinon */
 booleen case_est_minee(case_demineur* c) {
 	return c->est_minee;
 }
 
-/* Renvoie BOOLEEN_VRAI si la case est dvoile et BOOLEEN_FAUX sinon */
+/* Renvoie BOOLEEN_VRAI si la case est dï¿½voilï¿½e et BOOLEEN_FAUX sinon */
 booleen case_est_devoilee(case_demineur* c) {
 	return c->est_devoilee;
 }
 
-/* Renvoie la marque associe ˆ la case */
+/* Renvoie la marque associï¿½e ï¿½ la case */
 marque case_get_marque(case_demineur* c) {
 	return c->marque_joueur;
 }
 
-/* Augmente d'une unit le nombre de mines voisines ˆ une case */
+/* Augmente d'une unitï¿½ le nombre de mines voisines ï¿½ une case */
 void case_ajouter_mine(case_demineur* c) {
 	c->nbmines_vois ++;
 }
 
-/* Renvoie le nombre de mines voisines ˆ la case */
+/* Renvoie le nombre de mines voisines ï¿½ la case */
 unsigned int case_get_nbmines(case_demineur* c) {
 	return c->nbmines_vois;
 }

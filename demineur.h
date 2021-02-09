@@ -199,7 +199,8 @@ void demineur_get_dimensions(demineur* d, unsigned int* h, unsigned int* l, unsi
 	- le champ nb_marquees est mis à jour en conséquence */
 int demineur_case_devoiler(demineur* d, int i, int j);
 
-/* Modifie la marque de la case (i, j) du jeu si l'indice est valide, la partie est en cours et la case n'est pas dévoilée et renvoie 0 alors, renvoie 1 sinon 
+/* Modifie la marque de la case (i, j) du jeu si l'indice est valide, la partie est en cours et la case n'est pas dévoilée et 
+renvoie 0 alors, renvoie 1 sinon 
 	Preconditions: 
 	- (i, j) est un indice de case valide
 	- la marque de la case (i, j) est valide 

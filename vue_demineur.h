@@ -65,7 +65,6 @@ typedef struct s_vue_demineur
 
 
 /*---------------------------------------------------- constructeur */
-gboolean fonctionTest(GtkWidget *widget, GdkEvent *unionCompliquee, gpointer);
 void vue_demineur_construire(vue_demineur* vue,int);
 void vue_demineur_detruire(vue_demineur* vue);
 void vue_demineur_montrer(vue_demineur*,gboolean);
