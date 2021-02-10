@@ -24,7 +24,7 @@ typedef struct s_ctrl_cases ctrl_cases;
 struct s_ctrl_demineur{
 	demineur* modele;
 	vue_demineur vue;
-	struct s_ctrl_cases tab[DIM_LONGUEUR][DIM_LARGEUR];
+	struct s_ctrl_cases tab[H_MAX][L_MAX];
 };
 typedef struct s_ctrl_demineur ctrl_demineur; 
 
@@ -33,6 +33,9 @@ typedef struct s_ctrl_demineur ctrl_demineur;
 
 /* initialise une variable controleur */
 void ctrl_initialiser(ctrl_demineur* controleur, demineur* modele);
+
+void ctrl_init_dim(ctrl_demineur* controleur, demineur* modele);
+
 
 /* lance l'interface */
 void ctrl_lancer();

@@ -43,7 +43,7 @@ dimension.o: dimension.c dimension.h
 vue_demineur.exe: vue_demineur.o ctrl_demineur.o main.o demineur.o case-demineur.o dimension.o
 	gcc $^ -o $@ $(LDFLAGS_GTK)
 
-vue_demineur.o: vue_demineur.c vue_demineur.h
+vue_demineur.o: vue_demineur.c vue_demineur.h demineur.h dimension.h case-demineur.h
 	gcc -c $< -o $@ $(CFLAGS) $(CFLAGS_GTK)
 
 ctrl_demineur.o: ctrl_demineur.c ctrl_demineur.h demineur.h dimension.h case-demineur.h vue_demineur.h

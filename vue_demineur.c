@@ -5,7 +5,7 @@
 
 int i,j;
 
-void vue_demineur_construire(vue_demineur* vue,int dim)
+void vue_demineur_construire(vue_demineur* vue,demineur* d)
 {
   
   // initialisation de la vue
@@ -14,7 +14,7 @@ void vue_demineur_construire(vue_demineur* vue,int dim)
   vue->fenetre = (GtkWindow*)gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(vue->fenetre, "Démineur");  
   
-  // Mise en place du container principal
+  // Mise en place du container donnees
   vue->conteneur_principal = (GtkBox*)gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
   gtk_container_add(GTK_CONTAINER(vue->fenetre),GTK_WIDGET(vue->conteneur_principal));  
   
@@ -34,25 +34,25 @@ void vue_demineur_construire(vue_demineur* vue,int dim)
   vue->conteneur_menu = (GtkBox*)gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
   gtk_box_pack_start(vue->conteneur_donnees,GTK_WIDGET(vue->conteneur_menu),TRUE,TRUE,0);
 
-  // Container principal pour le boutton rejouer
+  // Container donnees pour le boutton rejouer
   vue->rejouer =(GtkButton*)gtk_button_new_with_mnemonic("_rejouer");
   gtk_box_pack_start(vue->conteneur_menu,GTK_WIDGET(vue->rejouer),TRUE,TRUE,0);
   
-  // Container principal pour le boutton quitter
+  // Container donnees pour le boutton quitter
   vue->quitter =(GtkButton*)gtk_button_new_with_mnemonic("_quitter");
   gtk_box_pack_start(vue->conteneur_menu,GTK_WIDGET(vue->quitter),TRUE,TRUE,0);
 
 
-  for ( i = 0; i < DIM_LONGUEUR; i++)
+  for ( i = 0; i < d->dim.hauteur; i++)
   {
     //création de 9 box verticales pour mettre les bouttons
     vue->tab_box[i] = (GtkBox*)gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
     gtk_box_pack_start(vue->conteneur_cases,GTK_WIDGET(vue->tab_box[i]),TRUE,TRUE,0);
   }
 
-  for (i = 0; i <DIM_LONGUEUR ; i++)
+  for (i = 0; i <d->dim.hauteur ; i++)
   {
-    for ( j = 0; j < DIM_LARGEUR; j++)
+    for ( j = 0; j < d->dim.largeur; j++)
     {
       //remplissage des boutons à la verticale dans les boîtes
       vue->boutton[i][j] =(GtkToggleButton*)gtk_toggle_button_new();
@@ -108,3 +108,53 @@ void vue_demineur_set_fenetre_titre(vue_demineur* vue, const char* titre)
     #endif
 }
 
+void vue_ask_niveau(vue_demineur* vue){
+  
+  vue->fenetre = (GtkWindow*)gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title(vue->fenetre, "Démineur");  
+  
+  // Mise en place du container donnees
+  vue->conteneur_principal = (GtkBox*)gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
+  gtk_container_add(GTK_CONTAINER(vue->fenetre),GTK_WIDGET(vue->conteneur_principal));  
+
+  vue->conteneur_donnees = (GtkBox*)gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
+  gtk_box_pack_start(vue->conteneur_principal,GTK_WIDGET(vue->conteneur_donnees),TRUE,TRUE,0);
+
+  vue->libelle_menu = (GtkLabel*)gtk_label_new("Menu");
+  gtk_box_pack_start(vue->conteneur_donnees,GTK_WIDGET(vue->libelle_menu),TRUE,TRUE,0);
+  
+  vue->conteneur_menu = (GtkBox*)gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
+  gtk_box_pack_start(vue->conteneur_donnees,GTK_WIDGET(vue->conteneur_menu),TRUE,TRUE,0);
+
+  vue->choose_nv[0]=(GtkButton*)gtk_button_new_with_mnemonic("Niveau débutant");
+  vue->choose_nv[1]=(GtkButton*)gtk_button_new_with_mnemonic("Niveau intermédiare");
+  vue->choose_nv[2]=(GtkButton*)gtk_button_new_with_mnemonic("Niveau expert");
+  gtk_box_pack_start(vue->conteneur_menu,GTK_WIDGET(vue->choose_nv[0]),TRUE,TRUE,0);
+  gtk_box_pack_start(vue->conteneur_menu,GTK_WIDGET(vue->choose_nv[1]),TRUE,TRUE,0);
+  gtk_box_pack_start(vue->conteneur_menu,GTK_WIDGET(vue->choose_nv[2]),TRUE,TRUE,0);
+
+  g_signal_connect(G_OBJECT(vue->fenetre),"destroy",G_CALLBACK(gtk_main_quit),NULL);
+  gtk_widget_show_all(GTK_WIDGET(vue->fenetre));
+}
+
+  void select_nv(GtkButton* b,vue_demineur* vue){
+    if(b==vue->choose_nv[0]){
+      vue->niveau = DEMINEUR_NIVEAU_DEBUTANT;
+    }else if(b==vue->choose_nv[1]){
+      vue->niveau = DEMINEUR_NIVEAU_MOYEN;
+    }else if(b==vue->choose_nv[2]){
+      vue->niveau = DEMINEUR_NIVEAU_EXPERT;
+    }
+  }
+
+  //demineur_set_niveau(demineur* d, vue->niveau) 
+
+/*int main(){
+    vue_demineur vue;
+    gtk_init(NULL,NULL);
+    vue_ask_niveau(&vue);
+   
+
+    gtk_main();
+    return EXIT_SUCCESS;
+}*/
