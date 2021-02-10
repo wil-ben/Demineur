@@ -56,6 +56,7 @@ void vue_demineur_construire(vue_demineur* vue,int dim)
     {
       //remplissage des boutons à la verticale dans les boîtes
       vue->boutton[i][j] =(GtkToggleButton*)gtk_toggle_button_new();
+      gtk_widget_set_size_request(vue->boutton[i][j],75,75);
       gtk_box_pack_start(vue->tab_box[i],GTK_WIDGET(vue->boutton[i][j]),TRUE,TRUE,0);
      
     }
