@@ -87,18 +87,15 @@ gboolean marquer_cases(GtkWidget *widget,GdkEvent * unionCompliquee, ctrl_cases*
     guint typeClic=unionCompliquee->button.button ; // récupération du type de clic à partir de l'argument de la fonction
     if( typeClic == 3){  /* Cas du clic droit */
 		int i = demineur_case_get_marque(ctrl_b->parent->modele,ctrl_b->hauteur,ctrl_b->largeur);
-		if(demineur_case_marquer(ctrl_b->parent->modele,ctrl_b->hauteur,ctrl_b->largeur)==0 && i == MARQUE_AUCUNE){
-			printf("hello\n");
-      		gtk_button_set_image((GtkButton*)widget,GTK_WIDGET((GtkImage*)gtk_image_new_from_file("littleflag.png")));	
+		int j = demineur_case_marquer(ctrl_b->parent->modele,ctrl_b->hauteur,ctrl_b->largeur);
+		if(j == 0 && i == MARQUE_AUCUNE){	
+			gtk_button_set_label((GtkButton*)widget,"🚩");
 		}
-		else if(demineur_case_marquer(ctrl_b->parent->modele,ctrl_b->hauteur,ctrl_b->largeur)==0 && i == MARQUE_MINE){
-			printf("hello1\n");
-			gtk_button_set_image((GtkButton*)widget,NULL);
+		else if(j == 0 && i == MARQUE_MINE){
 			gtk_button_set_label((GtkButton*)widget,"?");
 		}
-		else if(demineur_case_marquer(ctrl_b->parent->modele,ctrl_b->hauteur,ctrl_b->largeur)==0 && i == MARQUE_INTERRO){
-			printf("hello2\n");
-			gtk_button_set_label((GtkButton*)widget,NULL);
+		else if(j == 0 && i == MARQUE_INTERRO){
+			gtk_button_set_label((GtkButton*)widget," ");
 		}
 	}else{// clic gauche (typeClic == 1)
     	gtk_toggle_button_set_active ((GtkToggleButton *)widget, TRUE);
