@@ -56,7 +56,7 @@ void vue_demineur_construire(vue_demineur* vue,int dim)
     {
       //remplissage des boutons à la verticale dans les boîtes
       vue->boutton[i][j] =(GtkToggleButton*)gtk_toggle_button_new();
-      gtk_widget_set_size_request(vue->boutton[i][j],75,75);
+      gtk_widget_set_size_request((GtkWidget*)vue->boutton[i][j],75,75);
       gtk_box_pack_start(vue->tab_box[i],GTK_WIDGET(vue->boutton[i][j]),TRUE,TRUE,0);
      
     }
@@ -108,13 +108,3 @@ void vue_demineur_set_fenetre_titre(vue_demineur* vue, const char* titre)
     #endif
 }
 
-/*int main()
-{
-  vue_demineur vue;
-  int dim=1;
-  gtk_init(NULL,NULL);
-  //int dim = 1;
-  vue_demineur_construire(&vue,dim);
-   gtk_main();
-  return EXIT_SUCCESS;
-}*/

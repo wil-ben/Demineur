@@ -48,6 +48,8 @@ void cb_etat_partie(ctrl_demineur* ctrl);
 
 void afficher_mines_adj(GtkButton* b, ctrl_cases* ctrl_b);
 
+void afficher_mines(GtkButton*b, ctrl_cases* ctrl_b);
+
 gboolean marquer_cases(GtkWidget *widget,GdkEvent * unionCompliquee, ctrl_cases *ctrl_d);
 
 #endif

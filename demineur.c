@@ -232,7 +232,9 @@ void demineur_get_dimensions(demineur* d, unsigned int* h, unsigned int* l, unsi
 /* __ Accesseurs en ecriture / lecture : case
 */
 
-/* Dévoile la case (i, j) du jeu (et en domino toute case non dévoilée du jeu que l'on peut atteindre depuis cette case par un chemin de cases du jeu qui sont toutes non minées et sans mine adjacente dans le jeu) si l'indice est valide, la partie est en cours et la case n'est pas dévoilée et renvoie 0 alors, renvoie 1 sinon */
+/* Dévoile la case (i, j) du jeu (et en domino toute case non dévoilée du jeu que l'on peut atteindre depuis cette case 
+par un chemin de cases du jeu qui sont toutes non minées et sans mine adjacente dans le jeu) si l'indice est valide, 
+la partie est en cours et la case n'est pas dévoilée et renvoie 0 alors, renvoie 1 sinon */
 int demineur_case_devoiler(demineur* d, int i, int j) {
 	int retour =1;
 	
@@ -445,7 +447,8 @@ static dimension* demineur_get_niveau(demineur_niveau niveau) {
 	return niveaux +(niveau -DEMINEUR_NIVEAU_MIN);
 }
 
-/* Sous-routine de la méthode demineur_case_devoiler() qui dévoile les cases voisines d'une case donnée, et le fait récursivement pour chaque case qu'elle dévoile qui n'a pas de mine dans son voisinage */
+/* Sous-routine de la méthode demineur_case_devoiler() qui dévoile les cases voisines d'une case donnée, 
+et le fait récursivement pour chaque case qu'elle dévoile qui n'a pas de mine dans son voisinage */
 static void demineur_devoiler_depuis_case(demineur* d, int i, int j) {
 	int iprime, jprime;
 	unsigned int h = dimension_get_hauteur(& d->dim);
