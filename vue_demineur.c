@@ -50,7 +50,7 @@ void vue_demineur_construire(vue_demineur* vue,demineur* d)
     gtk_box_pack_start(vue->conteneur_cases,GTK_WIDGET(vue->tab_box[i]),TRUE,TRUE,0);
   }
 
-  for (i = 0; i <d->dim.hauteur ; i++)
+  for (i = 0; i < d->dim.hauteur ; i++)
   {
     for ( j = 0; j < d->dim.largeur; j++)
     {
@@ -137,7 +137,7 @@ void vue_ask_niveau(vue_demineur* vue){
   gtk_widget_show_all(GTK_WIDGET(vue->fenetre));
 }
 
-  void select_nv(GtkButton* b,vue_demineur* vue){
+void select_nv(GtkButton* b,vue_demineur* vue){
     if(b==vue->choose_nv[0]){
       vue->niveau = DEMINEUR_NIVEAU_DEBUTANT;
     }else if(b==vue->choose_nv[1]){
@@ -145,16 +145,4 @@ void vue_ask_niveau(vue_demineur* vue){
     }else if(b==vue->choose_nv[2]){
       vue->niveau = DEMINEUR_NIVEAU_EXPERT;
     }
-  }
-
-  //demineur_set_niveau(demineur* d, vue->niveau) 
-
-/*int main(){
-    vue_demineur vue;
-    gtk_init(NULL,NULL);
-    vue_ask_niveau(&vue);
-   
-
-    gtk_main();
-    return EXIT_SUCCESS;
-}*/
+}

@@ -45,7 +45,7 @@
 	Structure de données				*/
 typedef struct s_vue_demineur
 {
-  int niveau;
+  demineur_niveau niveau;
   GtkWindow* fenetre;
   GtkBox* conteneur_principal;
   GtkBox* conteneur_cases;

@@ -19,8 +19,7 @@ void ctrl_initialiser(ctrl_demineur* controleur, demineur* modele) {
 
 	/* contrôleur "niveau boîte" */
 	for(i =0 ; i < modele->dim.hauteur ; i ++) {
-        for ( j = 0; j < modele->dim.largeur; j++)
-        {
+        for ( j = 0; j < modele->dim.largeur; j++){
 		controleur->tab[i][j].hauteur =i;
         controleur->tab[i][j].largeur =j;
 		controleur->tab[i][j].parent =controleur;
@@ -50,6 +49,7 @@ void ctrl_init_dim(ctrl_demineur* controleur, demineur* modele){
 	vue_ask_niveau(&controleur->vue);
 	for (int i = 0; i < 3; i++){
       g_signal_connect(G_OBJECT(controleur->vue.choose_nv[i]),"clicked",G_CALLBACK(select_nv),&controleur->vue);
+	  g_signal_connect(G_OBJECT(controleur->vue.choose_nv[i]),"clicked",G_CALLBACK(gtk_main_quit),NULL);
 
     } 
 	demineur_set_niveau(modele,controleur->vue.niveau);
