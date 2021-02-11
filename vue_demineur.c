@@ -27,8 +27,17 @@ void vue_demineur_construire(vue_demineur* vue,demineur* d)
   gtk_box_pack_start(vue->conteneur_principal,GTK_WIDGET(vue->conteneur_donnees),TRUE,TRUE,0);
 
   // Container qui va contenir le label Menu
-  vue->libelle_menu = (GtkLabel*)gtk_label_new("Menu");
+  vue->libelle_menu = (GtkLabel*)gtk_label_new("------------------------DONNÉES----------------------");
   gtk_box_pack_start(vue->conteneur_donnees,GTK_WIDGET(vue->libelle_menu),TRUE,TRUE,0);
+
+  vue->conteneur_tps = (GtkBox*)gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
+  gtk_box_pack_start(vue->conteneur_donnees,GTK_WIDGET(vue->conteneur_tps),TRUE,TRUE,0);
+  int w = demineur_get_temps(d);
+  char label[0];
+	label[0]= (char)w+48;
+
+  vue->libelle_tps = (GtkLabel*)gtk_label_new(label);
+  gtk_box_pack_start(vue->conteneur_tps,GTK_WIDGET(vue->libelle_tps),TRUE,TRUE,0);
 
   // Container qui va contenir les deux bouttons d'ctions Quitter et Rejouer
   vue->conteneur_menu = (GtkBox*)gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
@@ -56,7 +65,8 @@ void vue_demineur_construire(vue_demineur* vue,demineur* d)
     {
       //remplissage des boutons à la verticale dans les boîtes
       vue->boutton[i][j] =(GtkToggleButton*)gtk_toggle_button_new();
-      gtk_widget_set_size_request((GtkWidget*)vue->boutton[i][j],75,75);
+      //gtk_widget_set_size_request((GtkWidget*)vue->boutton[i][j],75,75);
+      gtk_button_set_relief ((GtkButton*)vue->boutton[i][j], GTK_RELIEF_NORMAL);
       gtk_box_pack_start(vue->tab_box[i],GTK_WIDGET(vue->boutton[i][j]),TRUE,TRUE,0);
      
     }
@@ -132,7 +142,7 @@ void vue_ask_niveau(vue_demineur* vue){
   gtk_box_pack_start(vue->conteneur_menu,GTK_WIDGET(vue->choose_nv[0]),TRUE,TRUE,0);
   gtk_box_pack_start(vue->conteneur_menu,GTK_WIDGET(vue->choose_nv[1]),TRUE,TRUE,0);
   gtk_box_pack_start(vue->conteneur_menu,GTK_WIDGET(vue->choose_nv[2]),TRUE,TRUE,0);
-
+  gtk_button_set_relief ((GtkButton*)vue->choose_nv[0], GTK_RELIEF_NORMAL);
   g_signal_connect(G_OBJECT(vue->fenetre),"destroy",G_CALLBACK(gtk_main_quit),NULL);
   gtk_widget_show_all(GTK_WIDGET(vue->fenetre));
 }
@@ -145,4 +155,5 @@ void select_nv(GtkButton* b,vue_demineur* vue){
     }else if(b==vue->choose_nv[2]){
       vue->niveau = DEMINEUR_NIVEAU_EXPERT;
     }
+    gtk_main_quit();
 }

@@ -56,8 +56,10 @@ typedef struct s_vue_demineur
   GtkButton* quitter;
   GtkBox* tab_box[H_MAX];
   GtkLabel* libelle_menu;
+  GtkLabel* libelle_tps;
   GtkImage* drapeau[H_MAX][L_MAX];
   GtkButton* choose_nv[3];
+  GtkBox* conteneur_tps;
 }vue_demineur;
 
 

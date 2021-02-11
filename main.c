@@ -9,8 +9,7 @@ int main() {
     demineur_nouvelle_partie(modele);
     ctrl_init_dim(&controleur,modele);
     ctrl_lancer();
-    printf("%d\n",controleur.vue.niveau);
-    printf("%d\n",modele->dim.hauteur);
+    demineur_set_niveau(modele, controleur.vue.niveau);
     ctrl_initialiser(&controleur, modele);
     ctrl_lancer();
     return EXIT_SUCCESS;

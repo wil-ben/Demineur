@@ -34,27 +34,17 @@ void ctrl_initialiser(ctrl_demineur* controleur, demineur* modele) {
 			g_signal_connect(G_OBJECT(widget), "clicked", G_CALLBACK(cb_ouvrir_cases), & (controleur->tab[i][j]));
       		g_signal_connect(G_OBJECT(widget), "button-press-event", G_CALLBACK(marquer_cases), & (controleur->tab[i][j]));
 			g_signal_connect_swapped(G_OBJECT(widget), "clicked", G_CALLBACK(cb_etat_partie), controleur);
-			/*if(demineur_case_est_devoilee(controleur->modele,i,j)== 1){
-                printf("hello\n");
-                gtk_toggle_button_set_active ((GtkToggleButton *)widget, TRUE);
-            }*/
-			
-		}
 		
 	}
+}
 }
 
 void ctrl_init_dim(ctrl_demineur* controleur, demineur* modele){
 	gtk_init(NULL, NULL);
-	vue_ask_niveau(&controleur->vue);
+	vue_ask_niveau(&(controleur->vue));
 	for (int i = 0; i < 3; i++){
-      g_signal_connect(G_OBJECT(controleur->vue.choose_nv[i]),"clicked",G_CALLBACK(select_nv),&controleur->vue);
-	  g_signal_connect(G_OBJECT(controleur->vue.choose_nv[i]),"clicked",G_CALLBACK(gtk_main_quit),NULL);
-
+      g_signal_connect(G_OBJECT(controleur->vue.choose_nv[i]),"clicked",G_CALLBACK(select_nv),&(controleur->vue));
     } 
-	demineur_set_niveau(modele,controleur->vue.niveau);
-	printf("%d\n",modele->dim.hauteur);
-	//demineur_get_dimensions(modele,&modele->dim.hauteur,&modele->dim.largeur,&modele->dim.nbmines);
 }
 /* lance l'interface */
 void ctrl_lancer() {
@@ -91,17 +81,36 @@ void cb_ouvrir_cases(GtkButton* b, ctrl_cases* ctrl_b) {
 	}else{
 		afficher_mines_adj((GtkButton*)b,ctrl_b);
 	}
+	
 }
 
 void afficher_mines_adj(GtkButton* b, ctrl_cases* ctrl_b){
 	int i = demineur_case_get_nbmines_adj(ctrl_b->parent->modele,ctrl_b->hauteur,ctrl_b->largeur);
 	char label[0];
 	label[0]= (char)i+48;
+	if(i==0){
+		gtk_button_set_label((GtkButton*)b," ");
+	}else{
 	gtk_button_set_label((GtkButton*)b,label);
+
+	}
+	for(int f = 0; f < ctrl_b->parent->modele->dim.hauteur ; f ++) {
+        for(int g = 0; g < ctrl_b->parent->modele->dim.largeur; g++){
+			int w= case_est_devoilee(&ctrl_b->parent->modele->plateau[f][g]);
+			if(w == 1){
+            	gtk_toggle_button_set_active ((GtkToggleButton *)vue_demineur_get_cases(&ctrl_b->parent->vue,f,g), TRUE);
+            }
+		}
+	}
 }
 
 void afficher_mines(GtkButton* b, ctrl_cases* ctrl_b){
 	gtk_button_set_label(b,"💣");
+	for(int f = 0; f < ctrl_b->parent->modele->dim.hauteur ; f ++) {
+        for(int g = 0; g < ctrl_b->parent->modele->dim.largeur; g++){
+            	gtk_toggle_button_set_active ((GtkToggleButton *)vue_demineur_get_cases(&ctrl_b->parent->vue,f,g), TRUE);
+		}
+	}
 }
 
 
