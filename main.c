@@ -4,6 +4,7 @@
 #include <gtk/gtk.h>
 
 int main() {
+//debut:
     ctrl_demineur controleur;
     demineur *modele = demineur_construire();
     demineur_nouvelle_partie(modele);
@@ -11,6 +12,8 @@ int main() {
     ctrl_lancer();
     demineur_set_niveau(modele, controleur.vue.niveau);
     ctrl_initialiser(&controleur, modele);
+    //if(controleur.a==1)
+    //goto debut;
     ctrl_lancer();
     return EXIT_SUCCESS;
 }

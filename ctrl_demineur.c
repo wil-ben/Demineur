@@ -34,6 +34,7 @@ void ctrl_initialiser(ctrl_demineur* controleur, demineur* modele) {
 			g_signal_connect(G_OBJECT(widget), "clicked", G_CALLBACK(cb_ouvrir_cases), & (controleur->tab[i][j]));
       		g_signal_connect(G_OBJECT(widget), "button-press-event", G_CALLBACK(marquer_cases), & (controleur->tab[i][j]));
 			g_signal_connect_swapped(G_OBJECT(widget), "clicked", G_CALLBACK(cb_etat_partie), controleur);
+			g_signal_connect(G_OBJECT(controleur->vue.rejouer),"clicked",G_CALLBACK(rejouer),NULL);
 		
 	}
 }
@@ -134,4 +135,8 @@ gboolean marquer_cases(GtkWidget *widget,GdkEvent * unionCompliquee, ctrl_cases*
     }
     return TRUE;
     
+}
+
+void rejouer(GtkButton* b,ctrl_cases* ctrl_b){
+    ctrl_b->parent->a=1;
 }

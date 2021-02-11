@@ -22,6 +22,7 @@ struct s_ctrl_cases {
 typedef struct s_ctrl_cases ctrl_cases; 
 
 struct s_ctrl_demineur{
+	int a;
 	demineur* modele;
 	vue_demineur vue;
 	struct s_ctrl_cases tab[H_MAX][L_MAX];
@@ -52,6 +53,8 @@ void cb_etat_partie(ctrl_demineur* ctrl);
 void afficher_mines_adj(GtkButton* b, ctrl_cases* ctrl_b);
 
 void afficher_mines(GtkButton*b, ctrl_cases* ctrl_b);
+
+void rejouer(GtkButton* b,ctrl_cases* ctrl_b);
 
 gboolean marquer_cases(GtkWidget *widget,GdkEvent * unionCompliquee, ctrl_cases *ctrl_d);
 
