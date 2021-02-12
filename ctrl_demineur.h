@@ -40,7 +40,7 @@ void ctrl_init_dim(ctrl_demineur* controleur, demineur* modele);
 
 /* lance l'interface */
 void ctrl_lancer();
-
+void ctrl_detruire(ctrl_demineur* controleur);
 /* ___________ Fonctions de rappel 
 */
 
@@ -54,8 +54,9 @@ void afficher_mines_adj(GtkButton* b, ctrl_cases* ctrl_b);
 
 void afficher_mines(GtkButton*b, ctrl_cases* ctrl_b);
 
-void rejouer(GtkButton* b,ctrl_cases* ctrl_b);
+void quitter(GtkButton* b,ctrl_cases* ctrl_b);
 
 gboolean marquer_cases(GtkWidget *widget,GdkEvent * unionCompliquee, ctrl_cases *ctrl_d);
 
+void afficher_temps(GtkLabel* b,demineur* d);
 #endif

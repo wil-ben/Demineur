@@ -13,7 +13,6 @@ void ctrl_initialiser(ctrl_demineur* controleur, demineur* modele) {
 
 	/* vue */
 	
-	
 	vue_demineur_construire(& controleur->vue, modele);
 	vue_demineur_montrer(& controleur->vue, TRUE);
 
@@ -34,10 +33,13 @@ void ctrl_initialiser(ctrl_demineur* controleur, demineur* modele) {
 			g_signal_connect(G_OBJECT(widget), "clicked", G_CALLBACK(cb_ouvrir_cases), & (controleur->tab[i][j]));
       		g_signal_connect(G_OBJECT(widget), "button-press-event", G_CALLBACK(marquer_cases), & (controleur->tab[i][j]));
 			g_signal_connect_swapped(G_OBJECT(widget), "clicked", G_CALLBACK(cb_etat_partie), controleur);
-			g_signal_connect(G_OBJECT(controleur->vue.rejouer),"clicked",G_CALLBACK(rejouer),NULL);
+			g_signal_connect(G_OBJECT(controleur->vue.rejouer),"clicked",G_CALLBACK(gtk_main_quit),NULL);
+			g_signal_connect(G_OBJECT(controleur->vue.quitter),"clicked",G_CALLBACK(quitter),NULL);
+			//g_signal_connect(G_OBJECT(controleur->vue.libelle_tps),"unclicked",G_CALLBACK(afficher_temps),controleur->modele);
 		
 	}
 }
+//afficher_temps( controleur->vue.libelle_tps,controleur->modele,);
 }
 
 void ctrl_init_dim(ctrl_demineur* controleur, demineur* modele){
@@ -51,6 +53,9 @@ void ctrl_init_dim(ctrl_demineur* controleur, demineur* modele){
 void ctrl_lancer() {
 	gtk_main();
 }
+void ctrl_detruire(ctrl_demineur* controleur){
+	vue_demineur_detruire(&controleur->vue);
+}
 
 /* ___________ Fonctions de rappel 
 */
@@ -62,12 +67,15 @@ void cb_etat_partie(ctrl_demineur* ctrl) {
 	switch(etat) {
 		case PARTIE_ENCOURS: 
 			vue_demineur_set_fenetre_titre(& (*ctrl).vue, "Partie en cours");
+			gtk_label_set_label(ctrl->vue.libelle_menu,"PARTIE EN COURS");
 			break;
 		case PARTIE_GAGNEE: 
 			vue_demineur_set_fenetre_titre(& (*ctrl).vue, "Partie gagnee, bravo !");
+			gtk_label_set_label(ctrl->vue.libelle_menu,"PARTIE GAGNÉE, BRAVO !");
 			break;
 		case PARTIE_PERDUE: 
 			vue_demineur_set_fenetre_titre(& (*ctrl).vue, "Partie perdue ... dommage :(())");
+			gtk_label_set_label(ctrl->vue.libelle_menu,"PARTIE PERDUE ... DOMMAGE :(");
 			break;
 		default:
 			printf("cas non reconnu\n");
@@ -76,6 +84,7 @@ void cb_etat_partie(ctrl_demineur* ctrl) {
 
 /* cette fonction ouvre une boîte du jeu */
 void cb_ouvrir_cases(GtkButton* b, ctrl_cases* ctrl_b) {
+	afficher_temps( ctrl_b->parent->vue.libelle_tps,ctrl_b->parent->modele);
 	demineur_case_devoiler(ctrl_b->parent->modele, ctrl_b->hauteur, ctrl_b->largeur);
 	if(demineur_case_est_minee(ctrl_b->parent->modele,ctrl_b->hauteur,ctrl_b->largeur)){
 		afficher_mines(b,ctrl_b);
@@ -137,6 +146,18 @@ gboolean marquer_cases(GtkWidget *widget,GdkEvent * unionCompliquee, ctrl_cases*
     
 }
 
-void rejouer(GtkButton* b,ctrl_cases* ctrl_b){
-    ctrl_b->parent->a=1;
+void quitter(GtkButton* b,ctrl_cases* ctrl_b){
+    //ctrl_b->parent->a=2;
+	exit(0);
+	gtk_main_quit();
+}
+
+void afficher_temps( GtkLabel* b,demineur* d)
+{
+ 	int x = d->debut;
+	int y = x-time(&d->fin);
+	y=-y;
+	char tab_tps[100000];
+	sprintf(tab_tps,"%d",y);
+	gtk_label_set_label(b,tab_tps);
 }

@@ -13,6 +13,7 @@ void vue_demineur_construire(vue_demineur* vue,demineur* d)
   // Creation de la fenêtre
   vue->fenetre = (GtkWindow*)gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(vue->fenetre, "Démineur");  
+  gtk_window_fullscreen (vue->fenetre);
   
   // Mise en place du container donnees
   vue->conteneur_principal = (GtkBox*)gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
@@ -27,16 +28,13 @@ void vue_demineur_construire(vue_demineur* vue,demineur* d)
   gtk_box_pack_start(vue->conteneur_principal,GTK_WIDGET(vue->conteneur_donnees),TRUE,TRUE,0);
 
   // Container qui va contenir le label Menu
-  vue->libelle_menu = (GtkLabel*)gtk_label_new("------------------------DONNÉES----------------------");
+  vue->libelle_menu = (GtkLabel*)gtk_label_new("ÉTAT DE LA PARTIE");
   gtk_box_pack_start(vue->conteneur_donnees,GTK_WIDGET(vue->libelle_menu),TRUE,TRUE,0);
 
   vue->conteneur_tps = (GtkBox*)gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
   gtk_box_pack_start(vue->conteneur_donnees,GTK_WIDGET(vue->conteneur_tps),TRUE,TRUE,0);
-  int w = demineur_get_temps(d);
-  char label[0];
-	label[0]= (char)w+48;
 
-  vue->libelle_tps = (GtkLabel*)gtk_label_new(label);
+  vue->libelle_tps = (GtkLabel*)gtk_label_new("0");
   gtk_box_pack_start(vue->conteneur_tps,GTK_WIDGET(vue->libelle_tps),TRUE,TRUE,0);
 
   // Container qui va contenir les deux bouttons d'ctions Quitter et Rejouer
@@ -44,11 +42,11 @@ void vue_demineur_construire(vue_demineur* vue,demineur* d)
   gtk_box_pack_start(vue->conteneur_donnees,GTK_WIDGET(vue->conteneur_menu),TRUE,TRUE,0);
 
   // Container donnees pour le boutton rejouer
-  vue->rejouer =(GtkButton*)gtk_button_new_with_mnemonic("_rejouer");
+  vue->rejouer =(GtkButton*)gtk_button_new_with_mnemonic("Rejouer");
   gtk_box_pack_start(vue->conteneur_menu,GTK_WIDGET(vue->rejouer),TRUE,TRUE,0);
   
   // Container donnees pour le boutton quitter
-  vue->quitter =(GtkButton*)gtk_button_new_with_mnemonic("_quitter");
+  vue->quitter =(GtkButton*)gtk_button_new_with_mnemonic("Quitter");
   gtk_box_pack_start(vue->conteneur_menu,GTK_WIDGET(vue->quitter),TRUE,TRUE,0);
 
 
@@ -65,23 +63,35 @@ void vue_demineur_construire(vue_demineur* vue,demineur* d)
     {
       //remplissage des boutons à la verticale dans les boîtes
       vue->boutton[i][j] =(GtkToggleButton*)gtk_toggle_button_new();
-      //gtk_widget_set_size_request((GtkWidget*)vue->boutton[i][j],75,75);
+      gtk_widget_set_size_request((GtkWidget*)vue->boutton[i][j],75-d->dim.largeur-10,75-d->dim.largeur-10);
       gtk_button_set_relief ((GtkButton*)vue->boutton[i][j], GTK_RELIEF_NORMAL);
       gtk_box_pack_start(vue->tab_box[i],GTK_WIDGET(vue->boutton[i][j]),TRUE,TRUE,0);
      
     }
     
   }
-  gtk_widget_show_all(GTK_WIDGET(vue->fenetre));
-  g_signal_connect(G_OBJECT(vue->quitter),"clicked",G_CALLBACK(gtk_main_quit),NULL);
   g_signal_connect(G_OBJECT(vue->fenetre), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+  gtk_widget_show_all(GTK_WIDGET(vue->fenetre));
 }
 
 
 void vue_demineur_detruire(vue_demineur* vue)
 {
-  
-}
+    #if(DEMINEUR_VUE_DEBUG == 1)
+    printf("Entree %s(%p)\n", __func__, (void*)vue);
+    #endif
+
+	/* tous les widgets de la vue étant inclus (directement ou indirectement) dans la fenêtre, 
+		détruire la fenêtre détruit tous les widgets de la vue
+
+		NB détruire la fenêtre fait émettre à la fenêtre le signal "destroy"
+	*/
+	gtk_widget_destroy(GTK_WIDGET(vue->fenetre));
+
+    #if(DEMINEUR_VUE_DEBUG == 1)
+    printf("Sortie %s()\n", __func__);
+    #endif
+} 
 void vue_demineur_montrer(vue_demineur* vue,gboolean oui_non){
   #if(DEMINEUR_VUE_DEBUG == 1)
     printf("Entree %s(%p, %d)\n", __func__, (void*)vue, oui_non);
@@ -122,7 +132,7 @@ void vue_ask_niveau(vue_demineur* vue){
   
   vue->fenetre = (GtkWindow*)gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(vue->fenetre, "Démineur");  
-  
+  gtk_window_fullscreen (vue->fenetre);
   // Mise en place du container donnees
   vue->conteneur_principal = (GtkBox*)gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
   gtk_container_add(GTK_CONTAINER(vue->fenetre),GTK_WIDGET(vue->conteneur_principal));  
@@ -143,7 +153,7 @@ void vue_ask_niveau(vue_demineur* vue){
   gtk_box_pack_start(vue->conteneur_menu,GTK_WIDGET(vue->choose_nv[1]),TRUE,TRUE,0);
   gtk_box_pack_start(vue->conteneur_menu,GTK_WIDGET(vue->choose_nv[2]),TRUE,TRUE,0);
   gtk_button_set_relief ((GtkButton*)vue->choose_nv[0], GTK_RELIEF_NORMAL);
-  g_signal_connect(G_OBJECT(vue->fenetre),"destroy",G_CALLBACK(gtk_main_quit),NULL);
+  g_signal_connect(G_OBJECT(vue->fenetre), "destroy", G_CALLBACK(gtk_main_quit), NULL);
   gtk_widget_show_all(GTK_WIDGET(vue->fenetre));
 }
 

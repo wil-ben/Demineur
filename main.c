@@ -4,17 +4,19 @@
 #include <gtk/gtk.h>
 
 int main() {
-//debut:
     ctrl_demineur controleur;
+    controleur.a=0;
     demineur *modele = demineur_construire();
-    demineur_nouvelle_partie(modele);
-    ctrl_init_dim(&controleur,modele);
-    ctrl_lancer();
-    demineur_set_niveau(modele, controleur.vue.niveau);
-    ctrl_initialiser(&controleur, modele);
-    //if(controleur.a==1)
-    //goto debut;
-    ctrl_lancer();
+    while(controleur.a!=2){ 
+        demineur_nouvelle_partie(modele);
+        ctrl_init_dim(&controleur,modele);
+        ctrl_lancer();
+        ctrl_detruire(&controleur);
+        demineur_set_niveau(modele, controleur.vue.niveau);
+        ctrl_initialiser(&controleur, modele);
+        ctrl_lancer();
+        ctrl_detruire(&controleur);
+    }
+    ctrl_detruire(&controleur);
     return EXIT_SUCCESS;
 }
-
