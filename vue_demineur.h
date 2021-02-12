@@ -37,9 +37,6 @@
 #define DEMINEUR_VUE_DEBUG 1	/* mode de compilation */
 
 
-/*#define DIM_LONGUEUR dimension_get_hauteur(& d->dim) /// vs. jeu de demineur : pour NB_	 
-#define DIM_LARGEUR dimension_get_hauteur(& d->dim) //vs. jeu de demineur : pour NB_	 
-#define NB_CASES DIM_LONGUEUR*DIM_LARGEUR*/
 
 /* ___________________________________
 	Structure de données				*/
@@ -68,16 +65,17 @@ typedef struct s_vue_demineur
 
 /*---------------------------------------------------- constructeur */
 void vue_demineur_construire(vue_demineur* vue,demineur*);
-void vue_demineur_detruire(vue_demineur* vue);
+
 void vue_demineur_montrer(vue_demineur*,gboolean);
-GtkWidget* vue_demineur_get_cases(vue_demineur* vue, int i,int j);
+
 void vue_demineur_set_fenetre_titre(vue_demineur* vue, const char* titre);
-void vue_ask_niveau(vue_demineur *vue);
-void select_nv(GtkButton* b, vue_demineur *vue);
 /*----------------------------------------------------- destructeur */
+void vue_demineur_detruire(vue_demineur* vue);
 
+GtkWidget* vue_demineur_get_cases(vue_demineur* vue, int i,int j);
 /*------------------------------------------------------ accesseurs */
-
+void vue_ask_niveau(vue_demineur *vue);
 /*------------------------------------------------------ modifieurs */
+void select_nv(GtkButton* b, vue_demineur *vue);
 
 #endif

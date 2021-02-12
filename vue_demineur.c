@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 
-int i,j;
-
 void vue_demineur_construire(vue_demineur* vue,demineur* d)
 {
   
@@ -28,13 +26,13 @@ void vue_demineur_construire(vue_demineur* vue,demineur* d)
   gtk_box_pack_start(vue->conteneur_principal,GTK_WIDGET(vue->conteneur_donnees),TRUE,TRUE,0);
 
   // Container qui va contenir le label Menu
-  vue->libelle_menu = (GtkLabel*)gtk_label_new("ÉTAT DE LA PARTIE");
+  vue->libelle_menu = (GtkLabel*)gtk_label_new("CLIQUEZ POUR JOUER AU DÉMINEUR !!");
   gtk_box_pack_start(vue->conteneur_donnees,GTK_WIDGET(vue->libelle_menu),TRUE,TRUE,0);
 
   vue->conteneur_tps = (GtkBox*)gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
   gtk_box_pack_start(vue->conteneur_donnees,GTK_WIDGET(vue->conteneur_tps),TRUE,TRUE,0);
 
-  vue->libelle_tps = (GtkLabel*)gtk_label_new("0");
+  vue->libelle_tps = (GtkLabel*)gtk_label_new("Temps : 0 min et 0 secs");
   gtk_box_pack_start(vue->conteneur_tps,GTK_WIDGET(vue->libelle_tps),TRUE,TRUE,0);
 
   // Container qui va contenir les deux bouttons d'ctions Quitter et Rejouer
