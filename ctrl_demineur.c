@@ -155,8 +155,7 @@ void quitter(GtkButton* b,ctrl_cases* ctrl_b){
 void afficher_temps( GtkLabel* b,demineur* d)
 {
  	int x = d->debut;
-	int y = x-time(&d->fin);
-	y=-y;
+	int y = time(&d->fin)-x;
 	char tab_tps[100000];
 	sprintf(tab_tps,"%d",y);
 	gtk_label_set_label(b,tab_tps);
