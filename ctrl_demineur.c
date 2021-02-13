@@ -1,7 +1,7 @@
 #include "ctrl_demineur.h"
 
 /* ___________ Fonctions de manipulation */
-int secs =0;
+static int secs =0;
 
 /* Determines if the timer has started */
 static gboolean start_timer = FALSE;
@@ -13,7 +13,7 @@ void ctrl_initialiser(ctrl_demineur* controleur, demineur* modele) {
 
 	/* modele */
 	controleur->modele =modele;
-
+	secs=0;
 	/* vue */
 	
 	vue_demineur_construire(& controleur->vue, modele);
@@ -58,6 +58,7 @@ void ctrl_lancer() {
 }
 void ctrl_detruire(ctrl_demineur* controleur){
 	vue_demineur_detruire(&controleur->vue);
+	//demineur_detruire(controleur->modele);
 }
 
 /* ___________ Fonctions de rappel 
@@ -111,7 +112,7 @@ void afficher_mines_adj(GtkButton* b, ctrl_cases* ctrl_b){
 	}
 	for(int f = 0; f < ctrl_b->parent->modele->dim.hauteur ; f ++) {
         for(int g = 0; g < ctrl_b->parent->modele->dim.largeur; g++){
-			int w= case_est_devoilee(&ctrl_b->parent->modele->plateau[f][g]);
+			int w = case_est_devoilee(&ctrl_b->parent->modele->plateau[f][g]);
 			if(w == 1){
             	gtk_toggle_button_set_active ((GtkToggleButton *)vue_demineur_get_cases(&ctrl_b->parent->vue,f,g), TRUE);
             }
@@ -159,16 +160,15 @@ void quitter(GtkButton* b,ctrl_cases* ctrl_b){
 gboolean afficher_temps(gpointer data)
 {
 	if(start_timer == 1){
-		GtkLabel *label =(GtkLabel*)data;
-		int x,z;
 		char tab_tps[10000];
-		x=secs/60;
-		z=secs%60;
+		int x=secs/60;
+		int z=secs%60;
 		sprintf(tab_tps,"Temps : %d min et %d secs",x,z);
-		secs=secs+1;
-		gtk_label_set_label(label,tab_tps);
+		secs++;
+		gtk_label_set_label((GtkLabel*)data,tab_tps);
 	}else{
 		secs=0;
+		return FALSE;
 	}
 	return TRUE;
 }
@@ -179,5 +179,5 @@ void _start_timer (){
 
 void _reset_timer (){
 	start_timer=FALSE;
-
+	secs=0;
 }
