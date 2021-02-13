@@ -11,9 +11,9 @@
 
 /* Contrôleur démineur : jonction d'un modèle et d'une vue démineur */
 struct s_ctrl_cases {
-		int hauteur;
-		int largeur;
-		struct s_ctrl_demineur* parent;
+	int hauteur;
+	int largeur;
+	struct s_ctrl_demineur* parent;
 };
 typedef struct s_ctrl_cases ctrl_cases; 
 

@@ -13,7 +13,7 @@ void ctrl_initialiser(ctrl_demineur* controleur, demineur* modele) {
 
 	/* modele */
 	controleur->modele =modele;
-	controleur->vue.timer =0;
+
 	/* vue */
 	
 	vue_demineur_construire(& controleur->vue, modele);
