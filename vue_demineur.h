@@ -31,6 +31,7 @@
  ******************************************************************************/
 #include <gtk/gtk.h>
 #include "demineur.h"
+
 #ifndef VUE_DEMINEUR_H
 #define VUE_DEMINEUR_H
 
@@ -42,6 +43,7 @@
 	Structure de données				*/
 typedef struct s_vue_demineur
 {
+  int a;
   demineur_niveau niveau;
   GtkWindow* fenetre;
   GtkBox* conteneur_principal;
@@ -54,6 +56,7 @@ typedef struct s_vue_demineur
   GtkBox* tab_box[H_MAX];
   GtkLabel* libelle_menu;
   GtkLabel* libelle_tps;
+  GtkSwitch* play_stop;
   GtkImage* drapeau[H_MAX][L_MAX];
   GtkButton* choose_nv[3];
   GtkBox* conteneur_tps;
@@ -73,9 +76,11 @@ void vue_demineur_set_fenetre_titre(vue_demineur* vue, const char* titre);
 void vue_demineur_detruire(vue_demineur* vue);
 
 GtkWidget* vue_demineur_get_cases(vue_demineur* vue, int i,int j);
+
+void sortir();
 /*------------------------------------------------------ accesseurs */
 void vue_ask_niveau(vue_demineur *vue);
 /*------------------------------------------------------ modifieurs */
-void select_nv(GtkButton* b, vue_demineur *vue);
+void select_nv(GtkButton* b,vue_demineur *vue);
 
 #endif

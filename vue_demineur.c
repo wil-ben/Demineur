@@ -32,9 +32,11 @@ void vue_demineur_construire(vue_demineur* vue,demineur* d)
   vue->conteneur_tps = (GtkBox*)gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
   gtk_box_pack_start(vue->conteneur_donnees,GTK_WIDGET(vue->conteneur_tps),TRUE,TRUE,0);
 
+  vue->play_stop = (GtkSwitch*)gtk_switch_new();
+  gtk_box_pack_start(vue->conteneur_tps,GTK_WIDGET(vue->play_stop),TRUE,TRUE,0);
+
   vue->libelle_tps = (GtkLabel*)gtk_label_new("Temps : 0 min et 0 secs");
   gtk_box_pack_start(vue->conteneur_tps,GTK_WIDGET(vue->libelle_tps),TRUE,TRUE,0);
-
   // Container qui va contenir les deux bouttons d'ctions Quitter et Rejouer
   vue->conteneur_menu = (GtkBox*)gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
   gtk_box_pack_start(vue->conteneur_donnees,GTK_WIDGET(vue->conteneur_menu),TRUE,TRUE,0);
@@ -60,7 +62,7 @@ void vue_demineur_construire(vue_demineur* vue,demineur* d)
     for ( j = 0; j < d->dim.largeur; j++)
     {
       //remplissage des boutons à la verticale dans les boîtes
-      vue->boutton[i][j] =(GtkToggleButton*)gtk_toggle_button_new();
+      vue->boutton[i][j] =(GtkToggleButton*)gtk_toggle_button_new_with_label("    ");
       gtk_widget_set_size_request((GtkWidget*)vue->boutton[i][j],75-d->dim.largeur-10,75-d->dim.largeur-10);
       gtk_button_set_relief ((GtkButton*)vue->boutton[i][j], GTK_RELIEF_NORMAL);
       gtk_box_pack_start(vue->tab_box[i],GTK_WIDGET(vue->boutton[i][j]),TRUE,TRUE,0);
@@ -116,13 +118,11 @@ GtkWidget* vue_demineur_get_cases(vue_demineur* vue, int i,int j){
 void vue_demineur_set_fenetre_titre(vue_demineur* vue, const char* titre)
 {
     #if(DEMINEUR_VUE_DEBUG == 1)
-    printf("Entree %s(%p, %s)\n", __func__, (void*)vue, titre);
     #endif
 
 	gtk_window_set_title(vue->fenetre, titre);
 
     #if(DEMINEUR_VUE_DEBUG == 1)
-    printf("Sortie %s()\n", __func__);
     #endif
 }
 
@@ -131,6 +131,7 @@ void vue_ask_niveau(vue_demineur* vue){
   vue->fenetre = (GtkWindow*)gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(vue->fenetre, "Démineur");  
   gtk_window_fullscreen (vue->fenetre);
+
   // Mise en place du container donnees
   vue->conteneur_principal = (GtkBox*)gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
   gtk_container_add(GTK_CONTAINER(vue->fenetre),GTK_WIDGET(vue->conteneur_principal));  

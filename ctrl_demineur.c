@@ -1,10 +1,9 @@
 #include "ctrl_demineur.h"
 
-/* ___________ Fonctions de manipulation */
+/*Varibales globales pour le timer*/
 static int secs =0;
-
-/* Determines if the timer has started */
 static gboolean start_timer = FALSE;
+
 /* initialise une variable controleur */
 void ctrl_initialiser(ctrl_demineur* controleur, demineur* modele) {
 	int i;
@@ -38,6 +37,7 @@ void ctrl_initialiser(ctrl_demineur* controleur, demineur* modele) {
 			g_signal_connect(G_OBJECT(widget), "clicked", G_CALLBACK(cb_ouvrir_cases), & (controleur->tab[i][j]));
       		g_signal_connect(G_OBJECT(widget), "button-press-event", G_CALLBACK(marquer_cases), & (controleur->tab[i][j]));
 			g_signal_connect_swapped(G_OBJECT(widget), "clicked", G_CALLBACK(cb_etat_partie), controleur);
+			g_signal_connect(G_OBJECT(controleur->vue.play_stop), "state-set", G_CALLBACK(on_off), controleur);
 			g_signal_connect(G_OBJECT(controleur->vue.rejouer),"clicked",G_CALLBACK(gtk_main_quit),NULL);
 			g_signal_connect(G_OBJECT(controleur->vue.quitter),"clicked",G_CALLBACK(quitter),NULL);
 		
@@ -49,7 +49,7 @@ void ctrl_init_dim(ctrl_demineur* controleur, demineur* modele){
 	gtk_init(NULL, NULL);
 	vue_ask_niveau(&(controleur->vue));
 	for (int i = 0; i < 3; i++){
-      g_signal_connect(G_OBJECT(controleur->vue.choose_nv[i]),"clicked",G_CALLBACK(select_nv),&(controleur->vue));
+      g_signal_connect(G_OBJECT(controleur->vue.choose_nv[i]),"clicked",G_CALLBACK(select_nv),&controleur->vue);
     } 
 }
 /* lance l'interface */
@@ -58,7 +58,7 @@ void ctrl_lancer() {
 }
 void ctrl_detruire(ctrl_demineur* controleur){
 	vue_demineur_detruire(&controleur->vue);
-	//demineur_detruire(controleur->modele);
+	demineur_detruire(controleur->modele);
 }
 
 /* ___________ Fonctions de rappel 
@@ -72,6 +72,7 @@ void cb_etat_partie(ctrl_demineur* ctrl) {
 		case PARTIE_ENCOURS: 
 			vue_demineur_set_fenetre_titre(& (*ctrl).vue, "Partie en cours");
 			gtk_label_set_label(ctrl->vue.libelle_menu,"PARTIE EN COURS");
+			_start_timer();
 			break;
 		case PARTIE_GAGNEE: 
 			vue_demineur_set_fenetre_titre(& (*ctrl).vue, "Partie gagnee, bravo !");
@@ -95,7 +96,6 @@ void cb_ouvrir_cases(GtkButton* b, ctrl_cases* ctrl_b) {
 		afficher_mines(b,ctrl_b);
 	}else{
 		afficher_mines_adj((GtkButton*)b,ctrl_b);
-		_start_timer();
 	}
 	
 }
@@ -152,23 +152,37 @@ gboolean marquer_cases(GtkWidget *widget,GdkEvent * unionCompliquee, ctrl_cases*
     
 }
 
-void quitter(GtkButton* b,ctrl_cases* ctrl_b){
+void quitter(){
 	exit(0);
 	gtk_main_quit();
 }
 
 gboolean afficher_temps(gpointer data)
 {
-	if(start_timer == 1){
-		char tab_tps[10000];
+	if(start_timer == TRUE){
+		char tab_tps[NB_MAX];
 		int x=secs/60;
 		int z=secs%60;
 		sprintf(tab_tps,"Temps : %d min et %d secs",x,z);
 		secs++;
 		gtk_label_set_label((GtkLabel*)data,tab_tps);
 	}else{
-		secs=0;
-		return FALSE;
+		return TRUE;
+	}
+	return TRUE;
+}
+
+gboolean afficher_temps2(gpointer data)
+{
+	if(start_timer == TRUE){
+		char tab_tps[NB_MAX];
+		int x=secs/60;
+		int z=secs%60;
+		sprintf(tab_tps,"Temps : %d min et %d secs",x,z);
+		secs--;
+		gtk_label_set_label((GtkLabel*)data,tab_tps);
+	}else{
+		return TRUE;
 	}
 	return TRUE;
 }
@@ -179,5 +193,16 @@ void _start_timer (){
 
 void _reset_timer (){
 	start_timer=FALSE;
-	secs=0;
+}
+
+gboolean on_off(GtkSwitch* sw,ctrl_demineur* controleur){
+	int i = gtk_switch_get_state(sw);
+	if (i == FALSE && start_timer== TRUE){
+		_reset_timer();
+		return FALSE;
+	}else if(i==TRUE && start_timer == FALSE){
+		_start_timer();
+		return FALSE;
+	}
+	return FALSE;
 }

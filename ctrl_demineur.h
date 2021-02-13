@@ -3,7 +3,7 @@
 #ifndef CTRL_demineur_H
 
 #define CTRL_demineur_H
-
+#define NB_MAX 10000
 #include "demineur.h"
 #include "vue_demineur.h"
 
@@ -41,6 +41,8 @@ void ctrl_detruire(ctrl_demineur* controleur);
 
 /*Fonctions de rappel */
 
+gboolean on_off(GtkSwitch *sw, ctrl_demineur *controleur);
+
 /* cette fonction dévoile les cases du plateau */
 void cb_ouvrir_cases(GtkButton* b, ctrl_cases* ctrl_b);
 
@@ -54,13 +56,14 @@ void afficher_mines_adj(GtkButton* b, ctrl_cases* ctrl_b);
 void afficher_mines(GtkButton*b, ctrl_cases* ctrl_b);
 
 /*cette fonction entraine la fermeture du jeu*/
-void quitter(GtkButton* b,ctrl_cases* ctrl_b);
+void quitter();
 
 /*cette fonction marque la case avec la marque adéquate*/
 gboolean marquer_cases(GtkWidget *widget,GdkEvent * unionCompliquee, ctrl_cases *ctrl_d);
 
 /*cette fonction affiche le temps ecoulé depuis le début de la partie*/
 gboolean afficher_temps(gpointer data);
+gboolean afficher_temps2(gpointer data);
 
 void _start_timer ();
 void _reset_timer();
