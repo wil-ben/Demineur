@@ -2,7 +2,7 @@
 
 Réalisé par Carré Gaëtan, Benrejdal Wilhan et Le Moine Nicolas le 14 février 2021.
 
-Pour jouer, il vous faudra d'abord compiler les fonction et générer un executable du jeu. Il vous suffit pour cela de taper "make" dans votre terminale à l'emplacement des fichier. Vous devrez finalement taper "./vue_demineur.exe" au même endroit dans votre terminale pour lancer le jeu.
+Pour jouer, il vous faudra d'abord compiler les fonction et générer un executable du jeu. Il vous suffit pour cela de taper "make" dans votre terminale à l'emplacement des fichier. Vous devrez finalement taper "./jeu.exe" au même endroit dans votre terminale pour lancer le jeu.
 
 Règles du jeu:
 

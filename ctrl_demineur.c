@@ -8,6 +8,11 @@ int b=1;//permet de continuer d'appeler le timer après le premeir appel car le 
 
 int marques=0;//permet de mettre à jour le commpteur de marques
 
+int l_pause;//largeur de la fenetre de pause
+int h_pause =2000; //hauteur de la fenetre de pause
+
+GtkWindow* window;//fenetre de pause
+
 /* initialise une variable controleur */
 void ctrl_initialiser(ctrl_demineur* controleur, demineur* modele) {
 	int i;
@@ -57,7 +62,7 @@ void ctrl_init_dim(ctrl_demineur* controleur, demineur* modele){
 	vue_ask_niveau(&(controleur->vue));
 	for (int i = 0; i < 3; i++){
 		//le joueur selectionne le niveau
-      g_signal_connect(G_OBJECT(controleur->vue.choose_nv[i]),"clicked",G_CALLBACK(select_nv),&controleur->vue);
+      g_signal_connect(G_OBJECT(controleur->vue.choose_nv[i]),"clicked",G_CALLBACK(select_nv),controleur);
 	  // la fenetre est detruite lorsqu'on chosit un niveau
       g_signal_connect(G_OBJECT(controleur->vue.choose_nv[i]),"clicked",G_CALLBACK(gtk_window_close),&controleur->vue.fenetre);
     } 
@@ -81,7 +86,7 @@ void cb_etat_partie(ctrl_demineur* ctrl) {
 	switch(etat) {
 		case PARTIE_ENCOURS: 
 			vue_demineur_set_fenetre_titre(& (*ctrl).vue, "Partie en cours");
-			gtk_label_set_label(ctrl->vue.libelle_menu,"PARTIE EN COURS");
+			gtk_label_set_label(ctrl->vue.libelle_menu,"👀 PARTIE EN COURS 👀");
 			_start_timer();//lance le timer lorsque la partie commence 
 			b++;
 			sprintf(label,"%d ⬜",b-1); // converti un int en char*
@@ -89,12 +94,12 @@ void cb_etat_partie(ctrl_demineur* ctrl) {
 			break;
 		case PARTIE_GAGNEE: 
 			vue_demineur_set_fenetre_titre(& (*ctrl).vue, "Partie gagnee, bravo !");
-			gtk_label_set_label(ctrl->vue.libelle_menu,"PARTIE GAGNÉE, BRAVO !");
+			gtk_label_set_label(ctrl->vue.libelle_menu,"🎆 PARTIE GAGNÉE, BRAVO ! 🎆");
 			_reset_timer();//reset le timer lorsque la partie se termine
 			break;
 		case PARTIE_PERDUE: 
 			vue_demineur_set_fenetre_titre(& (*ctrl).vue, "Partie perdue ... dommage :(())");
-			gtk_label_set_label(ctrl->vue.libelle_menu,"PARTIE PERDUE ... DOMMAGE :(");
+			gtk_label_set_label(ctrl->vue.libelle_menu,"🤧 PARTIE PERDUE ... DOMMAGE 🤧");
 			_reset_timer();//reset le timer lorsque la partie se termine
 			break;
 		default:
@@ -170,7 +175,12 @@ gboolean marquer_cases(GtkWidget *widget,GdkEvent * unionCompliquee, ctrl_cases*
 			gtk_button_set_label((GtkButton*)widget," ");//enlève le ?
 		}
 	}else{// clic gauche (typeClic == 1)
-    	gtk_toggle_button_set_active ((GtkToggleButton *)widget, TRUE);//enfonce les boutons lors d'un clique gauche
+		gtk_toggle_button_set_active ((GtkToggleButton *)widget, TRUE);//enfonce les boutons lors d'un clique gauche
+		if(j == 0 && i == MARQUE_MINE){
+			marques--;
+			sprintf(label,"%d 🚩",marques);
+			gtk_label_set_label(ctrl_b->parent->vue.marques,label);
+		}
     }
     return TRUE;
     
@@ -219,22 +229,39 @@ gboolean on_off(GtkSwitch* sw,ctrl_demineur* controleur){
 	int i = gtk_switch_get_state(sw);
 	if (i == FALSE && start_timer== TRUE){
 		start_timer=FALSE; //arrêt du timer
-
-		//affiche un effet de flou pour dire que le jeu est en pause
-		GtkWindow* window =(GtkWindow*)gtk_window_new(GTK_WINDOW_TOPLEVEL);
+		//affiche une fenetre avec les commandes pour dire que le jeu est en pause
+		window =(GtkWindow*)gtk_window_new(GTK_WINDOW_TOPLEVEL);
 		gtk_window_set_decorated(window,FALSE);//enlève les bords de la fenre
-		gtk_window_set_attached_to(window,(GtkWidget*)sw);//rattache la fenetre au bouton "switch"
-		GtkLabel* label = (GtkLabel*)gtk_label_new("PAUSE");//affiche le label PAUSE
+		gtk_window_move(window,0,0);
+		gtk_window_set_default_size ((GtkWindow*)window,l_pause,h_pause);
+		GtkLabel* label = (GtkLabel*)gtk_label_new("PAUSE\n\n\n Dévoiler une case : clique gauche\n\n Poser une marque : clique droit\n\n Mettre pause : bouton switch\n\n Quitter : bouton Quitter\n\n Rejouer : bouton Rejouer\n\n 🚩 : Nombre de marques posées\n\n 💣 : Nombre de mines\n\n ⬜ : Nombre de cases dévoilées\n\n Bonne chance !\n\n\n (lisez le README pour les règles !)");//affiche le label 
 		gtk_container_add(GTK_CONTAINER(window),GTK_WIDGET(label));
 		gtk_widget_show_all((GtkWidget*)window);//affiche la fenetre
+		gtk_widget_set_opacity((GtkWidget*)window,1);
 
 		a=1;//a est mis à 1 pour pas que la fonction afficher_temps retourne FALSE
 		return FALSE;
 	}else if(i==TRUE && start_timer == FALSE){
 		_start_timer(); //reprise du timer
+		if(a==1)
+		gtk_window_close(window);
 		return FALSE;
 	}
 	return FALSE;
+}
+
+//Fonction qui détermine le niveau en fonction du boutton cliqué
+void select_nv(GtkButton* b,ctrl_demineur* ctrl){
+    if(b==ctrl->vue.choose_nv[0]){
+    	ctrl->vue.niveau = DEMINEUR_NIVEAU_DEBUTANT;
+	  	l_pause=1000;
+    }else if(b==ctrl->vue.choose_nv[1]){
+      	ctrl->vue.niveau = DEMINEUR_NIVEAU_MOYEN;
+	  	l_pause=1150;
+    }else if(b==ctrl->vue.choose_nv[2]){
+	  	l_pause=1150;
+      	ctrl->vue.niveau = DEMINEUR_NIVEAU_EXPERT;
+    }
 }
 
 //cette fonction fait la même chose que le main, elle est appelée losrqu'on clique sur rejouer

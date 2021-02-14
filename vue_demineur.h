@@ -61,6 +61,7 @@ typedef struct s_vue_demineur
   GtkLabel* marques;
   GtkBox* conteneur_tps;
   GtkBox* conteneur_evol;
+  GtkBox* conteneur_logo;
   GtkImage* im_menu;
 }vue_demineur;
 
@@ -83,6 +84,6 @@ void sortir();
 
 void vue_ask_niveau(vue_demineur *vue);
 
-void select_nv(GtkButton* b,vue_demineur *vue);
+
 
 #endif

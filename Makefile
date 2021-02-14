@@ -20,7 +20,7 @@ CFLAGS_GTK = `pkg-config gtk+-3.0 --cflags`	# à utiliser pour la compilation de
 LDFLAGS_GTK = `pkg-config gtk+-3.0 --libs`	# à utiliser pour la génération d'exécutables *utilisant gtk*
 
 # ____ l'exécutable
-EXEC = vue_demineur.exe
+EXEC = jeu.exe
 all: $(EXEC)
 
 # ____ la bibliothèque
@@ -34,7 +34,7 @@ dimension.o: dimension.c dimension.h
 	gcc -c $< -o $@ $(CFLAGS)
 
 # programme GTK
-vue_demineur.exe: vue_demineur.o ctrl_demineur.o main.o demineur.o case-demineur.o dimension.o
+jeu.exe: vue_demineur.o ctrl_demineur.o main.o demineur.o case-demineur.o dimension.o
 	gcc $^ -o $@ $(LDFLAGS_GTK)
 
 vue_demineur.o: vue_demineur.c vue_demineur.h demineur.h dimension.h case-demineur.h

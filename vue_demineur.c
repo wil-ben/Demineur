@@ -25,9 +25,14 @@ void vue_demineur_construire(vue_demineur* vue,demineur* d)
   vue->conteneur_donnees = (GtkBox*)gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
   gtk_box_pack_start(vue->conteneur_principal,GTK_WIDGET(vue->conteneur_donnees),TRUE,TRUE,0);
 
+ vue->conteneur_logo = (GtkBox*)gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
+  gtk_box_pack_start(vue->conteneur_donnees,GTK_WIDGET(vue->conteneur_logo),TRUE,TRUE,0);
   // Container qui va contenir le label Menu
   vue->libelle_menu = (GtkLabel*)gtk_label_new("CLIQUEZ POUR JOUER AU DÉMINEUR !!");
-  gtk_box_pack_start(vue->conteneur_donnees,GTK_WIDGET(vue->libelle_menu),TRUE,TRUE,0);
+  gtk_box_pack_start(vue->conteneur_logo,GTK_WIDGET(vue->libelle_menu),TRUE,TRUE,0);
+
+  vue->im_menu = (GtkImage*)gtk_image_new_from_file("mine.png");
+  gtk_box_pack_start(vue->conteneur_logo,GTK_WIDGET(vue->im_menu),TRUE,TRUE,0);
 
   vue->conteneur_tps = (GtkBox*)gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
   gtk_box_pack_start(vue->conteneur_donnees,GTK_WIDGET(vue->conteneur_tps),TRUE,TRUE,0);
@@ -53,7 +58,11 @@ void vue_demineur_construire(vue_demineur* vue,demineur* d)
   vue->info_niv[1]=(GtkLabel*)gtk_label_new("0 ⬜");
   gtk_box_pack_start(vue->conteneur_evol,GTK_WIDGET(vue->info_niv[1]),TRUE,TRUE,0);
 
-  //Bouton qui sert à arrêter ou reprendre le timer
+  //LAbel play/pause
+  vue->info_niv[2]=(GtkLabel*)gtk_label_new("▶️                                                 PLAY / PAUSE                                                 ⏸️");
+  gtk_box_pack_start(vue->conteneur_tps,GTK_WIDGET(vue->info_niv[2]),TRUE,TRUE,0);
+
+//Bouton qui sert à arrêter ou reprendre le timer
   vue->play_stop = (GtkSwitch*)gtk_switch_new();
   gtk_box_pack_start(vue->conteneur_tps,GTK_WIDGET(vue->play_stop),TRUE,TRUE,0);
 
@@ -187,13 +196,3 @@ void vue_ask_niveau(vue_demineur* vue){
   gtk_widget_show_all(GTK_WIDGET(vue->fenetre));
 }
 
-//Fonction qui détermine le niveau en fonction du boutton cliqué
-void select_nv(GtkButton* b,vue_demineur* vue){
-    if(b==vue->choose_nv[0]){
-      vue->niveau = DEMINEUR_NIVEAU_DEBUTANT;
-    }else if(b==vue->choose_nv[1]){
-      vue->niveau = DEMINEUR_NIVEAU_MOYEN;
-    }else if(b==vue->choose_nv[2]){
-      vue->niveau = DEMINEUR_NIVEAU_EXPERT;
-    }
-}

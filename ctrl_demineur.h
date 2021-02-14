@@ -24,6 +24,7 @@ struct s_ctrl_demineur{
 };
 typedef struct s_ctrl_demineur ctrl_demineur; 
 
+
 /*Fonctions de manipulation */
 
 /* initialise une variable controleur */
@@ -40,6 +41,7 @@ void ctrl_lancer();
 void ctrl_detruire(ctrl_demineur* controleur);
 
 /*Fonctions de rappel */
+void select_nv(GtkButton* b,ctrl_demineur *vue);
 
 void replay();
 
