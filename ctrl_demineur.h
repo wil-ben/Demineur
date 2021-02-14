@@ -41,6 +41,8 @@ void ctrl_detruire(ctrl_demineur* controleur);
 
 /*Fonctions de rappel */
 
+void replay();
+
 gboolean on_off(GtkSwitch *sw, ctrl_demineur *controleur);
 
 /* cette fonction dévoile les cases du plateau */
@@ -63,7 +65,6 @@ gboolean marquer_cases(GtkWidget *widget,GdkEvent * unionCompliquee, ctrl_cases 
 
 /*cette fonction affiche le temps ecoulé depuis le début de la partie*/
 gboolean afficher_temps(gpointer data);
-gboolean afficher_temps2(gpointer data);
 
 void _start_timer ();
 void _reset_timer();
